@@ -11,6 +11,13 @@
     <class>br.com.systemmanagerstore.DomainModel.ItensCompra</class>
     <class>br.com.systemmanagerstore.DomainModel.ItemCompra</class>
     <class>br.com.systemmanagerstore.DomainModel.Compra</class>
+    <class>br.com.systemmanagerstore.DomainModel.Venda</class>
+    <class>br.com.systemmanagerstore.DomainModel.ItemVenda</class>
+    <class>br.com.systemmanagerstore.DomainModel.Conta</class>
+    <class>br.com.systemmanagerstore.DomainModel.Liquidacao</class>
+    <class>br.com.systemmanagerstore.DomainModel.EntradaDeCaixa</class>
+    <class>br.com.systemmanagerstore.DomainModel.SaidaDeCaixa</class>
+    <class>br.com.systemmanagerstore.DomainModel.Caixa</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/systemmanagerstorepu?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
