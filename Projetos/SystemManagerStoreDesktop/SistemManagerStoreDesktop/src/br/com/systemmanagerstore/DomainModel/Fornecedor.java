@@ -32,7 +32,7 @@ public class Fornecedor implements Serializable {
     private String cnpj;
     
     @Column(nullable = false, length = 500)
-    private String razaoSocial;
+    private String nome;
     
     @OneToOne(cascade = CascadeType.ALL, optional = true)
     Telefone telefone;
@@ -53,13 +53,15 @@ public class Fornecedor implements Serializable {
         this.cnpj = cnpj;
     }
 
-    public String getRazaoSocial() {
-        return razaoSocial;
+    public String getNome() {
+        return nome;
     }
 
-    public void setRazaoSocial(String razaoSocial) {
-        this.razaoSocial = razaoSocial;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
+
+
 
     public Telefone getTelefone() {
         return telefone;

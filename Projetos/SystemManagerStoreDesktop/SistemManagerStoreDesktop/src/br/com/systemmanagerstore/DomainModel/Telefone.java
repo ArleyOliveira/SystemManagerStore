@@ -37,6 +37,14 @@ public class Telefone implements Serializable {
         return id;
     }
 
+    public Telefone() {
+    }
+
+    public Telefone(String telefone, String tipo) {
+        this.telefone = telefone;
+        this.tipo = tipo;
+    }
+
     public String getTelefone() {
         return telefone;
     }

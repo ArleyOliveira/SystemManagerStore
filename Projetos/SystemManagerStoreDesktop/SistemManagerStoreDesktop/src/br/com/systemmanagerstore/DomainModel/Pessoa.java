@@ -60,7 +60,7 @@ public class Pessoa implements Serializable {
     Telefone telefone;
 
     @Column(precision = 5, scale = 2, nullable = true)
-    private BigDecimal valor;
+    private BigDecimal debito;
     
     private String DTYPE;
 
@@ -72,12 +72,12 @@ public class Pessoa implements Serializable {
         this.rg = rg;
     }
 
-    public BigDecimal getValor() {
-        return valor;
+    public BigDecimal getDebito() {
+        return debito;
     }
 
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
+    public void setDebito(BigDecimal valor) {
+        this.debito = valor;
     }
     
     
@@ -155,7 +155,7 @@ public class Pessoa implements Serializable {
     }
 
     public Pessoa() {
-        this.valor = new BigDecimal("0.00");
+        this.debito = new BigDecimal("0.00");
     }
     
     

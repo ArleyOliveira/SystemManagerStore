@@ -5,7 +5,12 @@
  */
 package br.com.systemmanagerstore.DomainModel;
 
+import br.com.systemmanagerstore.Utility.Criptografia;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -21,7 +26,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "funcionarios")
 @DiscriminatorValue("funcionario")
-public class Funcionario implements Serializable {
+public class Funcionario extends Pessoa implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,7 +50,17 @@ public class Funcionario implements Serializable {
     public String getSenha() {
         return senha;
     }
-
+    
+    public void setSenhaCriptografada(String senha){
+        try {
+            this.senha = Criptografia.exemploMD5(senha);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(Funcionario.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(Funcionario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void setSenha(String senha) {
         this.senha = senha;
     }
