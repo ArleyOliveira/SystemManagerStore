@@ -8,11 +8,13 @@ package br.com.systemmanagerstore.DataAccess;
 import br.com.systemmanagerstore.DomainModel.Endereco;
 import br.com.systemmanagerstore.Repository.EnderecoRepositorio;
 import java.util.List;
+import javax.ejb.Singleton;
 
 /**
  *
  * @author ARLEY
  */
+@Singleton
 public class EnderecoDAO extends DAOGenerico<Endereco> implements EnderecoRepositorio{
 
     public EnderecoDAO() {

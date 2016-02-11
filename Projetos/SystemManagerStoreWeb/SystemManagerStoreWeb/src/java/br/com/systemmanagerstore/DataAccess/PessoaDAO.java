@@ -8,6 +8,7 @@ package br.com.systemmanagerstore.DataAccess;
 import br.com.systemmanagerstore.DomainModel.Fornecedor;
 import br.com.systemmanagerstore.DomainModel.Pessoa;
 import java.util.List;
+import javax.ejb.Singleton;
 import javax.persistence.Query;
 
 
@@ -15,7 +16,7 @@ import javax.persistence.Query;
  *
  * @author Arley
  */
-
+@Singleton
 public class PessoaDAO extends DAOGenerico<Pessoa> {
 
     public PessoaDAO() {

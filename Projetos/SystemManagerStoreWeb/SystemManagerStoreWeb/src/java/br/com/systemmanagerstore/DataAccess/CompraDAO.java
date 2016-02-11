@@ -8,11 +8,13 @@ package br.com.systemmanagerstore.DataAccess;
 import br.com.systemmanagerstore.DomainModel.Compra;
 import br.com.systemmanagerstore.Repository.CompraRepositorio;
 import java.util.List;
+import javax.ejb.Singleton;
 
 /**
  *
  * @author arley
  */
+@Singleton
 public class CompraDAO extends DAOGenerico<Compra> implements CompraRepositorio {
 
     public CompraDAO() {

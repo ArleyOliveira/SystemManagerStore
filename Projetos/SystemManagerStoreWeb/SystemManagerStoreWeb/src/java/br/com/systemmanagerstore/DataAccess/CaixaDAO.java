@@ -8,11 +8,13 @@ package br.com.systemmanagerstore.DataAccess;
 import br.com.systemmanagerstore.DomainModel.Caixa;
 import br.com.systemmanagerstore.Repository.CaixaRepositorio;
 import java.util.List;
+import javax.ejb.Singleton;
 
 /**
  *
  * @author ARLEY
  */
+@Singleton
 public class CaixaDAO extends DAOGenerico<Caixa> implements CaixaRepositorio{
 
     public CaixaDAO() {

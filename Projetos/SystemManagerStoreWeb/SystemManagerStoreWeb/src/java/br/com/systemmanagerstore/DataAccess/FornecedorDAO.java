@@ -8,6 +8,7 @@ package br.com.systemmanagerstore.DataAccess;
 import br.com.systemmanagerstore.DomainModel.Fornecedor;
 import br.com.systemmanagerstore.Repository.FornecedorRepositorio;
 import java.util.List;
+import javax.ejb.Singleton;
 import javax.persistence.Query;
 
 
@@ -15,7 +16,7 @@ import javax.persistence.Query;
  *
  * @author Arley
  */
-
+@Singleton
 public class FornecedorDAO extends DAOGenerico<Fornecedor> implements FornecedorRepositorio{
 
     public FornecedorDAO() {

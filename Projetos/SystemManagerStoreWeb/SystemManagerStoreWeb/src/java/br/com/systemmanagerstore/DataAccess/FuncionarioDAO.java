@@ -8,12 +8,13 @@ package br.com.systemmanagerstore.DataAccess;
 import br.com.systemmanagerstore.DomainModel.Funcionario;
 import br.com.systemmanagerstore.Repository.FuncionarioRepositorio;
 import java.util.List;
+import javax.ejb.Singleton;
 
 /**
  *
  * @author arley
  */
-
+@Singleton
 public class FuncionarioDAO extends DAOGenerico<Funcionario> implements FuncionarioRepositorio{
 
     public FuncionarioDAO() {
