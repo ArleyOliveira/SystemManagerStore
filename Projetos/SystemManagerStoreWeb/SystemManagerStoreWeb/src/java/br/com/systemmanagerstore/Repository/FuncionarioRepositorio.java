@@ -6,6 +6,8 @@
 package br.com.systemmanagerstore.Repository;
 
 import br.com.systemmanagerstore.DomainModel.Funcionario;
+import br.com.systemmanagerstore.Presentation.Utility.Exception.CpfInvalidoException;
+import br.com.systemmanagerstore.Presentation.Utility.Exception.LoginInvalidoException;
 
 
 
@@ -13,6 +15,8 @@ import br.com.systemmanagerstore.DomainModel.Funcionario;
  *
  * @author arley
  */
-public interface FuncionarioRepositorio extends Repositorio<Funcionario>{
+public interface FuncionarioRepositorio extends PessoaRepositorioGenerico<Funcionario>{
    
+    public void verifcaLoginExitente(String email) throws LoginInvalidoException;
 }
+

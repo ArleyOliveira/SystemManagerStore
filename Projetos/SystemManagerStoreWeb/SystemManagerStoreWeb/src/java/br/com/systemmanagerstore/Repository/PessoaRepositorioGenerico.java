@@ -5,15 +5,12 @@
  */
 package br.com.systemmanagerstore.Repository;
 
-import br.com.systemmanagerstore.DomainModel.Pessoa;
 import br.com.systemmanagerstore.Presentation.Utility.Exception.CpfInvalidoException;
-import javax.ejb.Local;
-
 
 /**
  *
  * @author ARLEY
  */
-@Local
-public interface PessoaRepositorio extends PessoaRepositorioGenerico<Pessoa>{
+public interface PessoaRepositorioGenerico<T> extends Repositorio<T>{
+    public void verificaCPfExistente(String cpf) throws CpfInvalidoException; 
 }

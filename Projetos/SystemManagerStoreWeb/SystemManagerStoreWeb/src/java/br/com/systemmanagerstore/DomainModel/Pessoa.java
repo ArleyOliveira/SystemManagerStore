@@ -156,7 +156,7 @@ public class Pessoa implements Serializable {
 
     public Pessoa() {
         this.debito = new BigDecimal("0.00");
+        this.telefone = new Telefone();
     }
-    
-    
+  
 }

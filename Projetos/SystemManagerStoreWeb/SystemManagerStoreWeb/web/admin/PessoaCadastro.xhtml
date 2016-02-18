@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./TemplateAdmin.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                    
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+       <h:form id="cadPessoa">
+            <p:tabView>
+                <p:tab title="Cadastro de Cliente">
+                    <h:panelGrid columns="3" cellpadding="4" >
+                        <p:outputLabel value="Nome " for="nome" />
+                        <p:inputText  id="nome" value="#{pessoaController.entidade.nome}" required="true" label="Nome"/>
+                        <p:message for="nome" />
+
+                        <p:outputLabel value="CPF" for="cpf"/>
+                        <p:inputMask mask="999.999.999-99" id="cpf" value="#{pessoaController.entidade.cpf}" required="true" label="CPF"/>
+                        <p:message for="cpf" />
+                        
+                        <p:outputLabel value="RG" for="rg"/>
+                        <p:inputText  id="rg" value="#{pessoaController.entidade.rg}" />
+                        <p:message for="rg" />
+
+                        <p:outputLabel value="Sexo" for="sexo"/>
+                        <p:selectOneRadio id="sexo" value="#{pessoaController.entidade.sexo}" required="true" label="Sexo">
+                            <f:selectItem itemLabel="Masculino" itemValue="M" />
+                            <f:selectItem itemLabel="Feminino" itemValue="F" />
+                        </p:selectOneRadio>
+                        <p:message for="sexo" />
+
+                        <p:outputLabel for="dataNascimento" value="Data Nascimento:" />
+                        <p:calendar id="dataNascimento" locale="de" navigator="true" pattern="dd/MM/yyyy" mask="true" value="#{pessoaController.entidade.dataNascimento}" required="true" label="Data de Nascimento"/>
+                        <p:message for="dataNascimento" />
+
+
+                        <h:panelGroup>
+                            Telefone:
+                        </h:panelGroup>
+
+                        <h:panelGroup >
+                            <p:selectOneListbox id="tipoTelefone" value="#{pessoaController.entidade.telefone.tipo}">
+                                <f:selectItem itemLabel="Celular"  itemValue="Celular" />
+                                <f:selectItem itemLabel="Fixo" itemValue="Fixo" />
+                            </p:selectOneListbox> 
+                            <p:spacer height="30" width="0"/>
+
+                            <p:inputMask mask="(99) 99999-9999" id="telefoneN" value="#{pessoaController.entidade.telefone.telefone}" />                   
+                        </h:panelGroup>
+                        <p:outputLabel/>
+                        
+                    </h:panelGrid>
+                </p:tab>
+
+            </p:tabView>
+            <p:spacer height="30" width="0"/>
+            <p:growl id="message" showDetail="true" />
+            <p:commandButton value="Voltar" immediate="true" action="#{pessoaController.limparEntidade()}" ajax="false" icon="ui-icon-arrowthick-1-w"/>
+
+            <p:commandButton value="Salvar" actionListener="#{pessoaController.salvar}" update="message :cadPessoa" icon="ui-icon-check">
+                <p:confirm header="Confirmação" message="Deseja realmente salvar os dados?" icon="ui-icon-alert"  />
+            </p:commandButton>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" immediate="true"/>
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

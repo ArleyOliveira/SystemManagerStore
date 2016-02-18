@@ -7,11 +7,13 @@
 package br.com.systemmanagerstore.Repository;
 
 import java.util.List;
+import javax.ejb.Local;
 
 /**
  *
  * @author petronio
  */
+
 public interface Repositorio<T> {
     public boolean Salvar(T obj);
     public T Abrir(Long id);

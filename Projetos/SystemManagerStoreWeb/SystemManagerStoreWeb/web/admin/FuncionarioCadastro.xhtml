@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./TemplateAdmin.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form id="cadFuncionario">
+            <p:tabView>
+                <p:tab title="Cadastro de Funcionário">
+                    <p:growl id="growl" sticky="true" showDetail="true"/>
+
+                    <p:wizard flowListener="#{funcionarioController.onFlowProcess}" nextLabel="Próximo" backLabel="Voltar">
+                        <p:tab id="personal" title="Dados Pessoais">
+                            <p:panel header="Pessoais">
+                                <p:messages />
+                                <h:panelGrid columns="2" columnClasses="label, value">
+                                    <h:panelGrid columns="3" cellpadding="4" >
+                                        <p:outputLabel value="Nome " for="nome" />
+                                        <p:inputText  id="nome" value="#{funcionarioController.entidade.nome}" required="true" label="Nome"/>
+                                        <p:message for="nome" />
+
+                                        <p:outputLabel value="CPF" for="cpf"/>
+                                        <p:inputMask mask="999.999.999-99" id="cpf" value="#{funcionarioController.entidade.cpf}" required="true" label="CPF">
+     
+                                        </p:inputMask>
+                                        <p:message for="cpf" />
+
+                                        <p:outputLabel value="RG" for="rg"/>
+                                        <p:inputText  id="rg" value="#{funcionarioController.entidade.rg}" />
+                                        <p:message for="rg" />
+
+                                        <p:outputLabel value="Sexo" for="sexo"/>
+                                        <p:selectOneRadio id="sexo" value="#{funcionarioController.entidade.sexo}" required="true" label="Sexo">
+                                            <f:selectItem itemLabel="Masculino" itemValue="M" />
+                                            <f:selectItem itemLabel="Feminino" itemValue="F" />
+                                        </p:selectOneRadio>
+                                        <p:message for="sexo" />
+
+                                        <p:outputLabel for="dataNascimento" value="Data Nascimento:" />
+                                        <p:calendar id="dataNascimento" locale="de" navigator="true" pattern="dd/MM/yyyy" mask="true" value="#{funcionarioController.entidade.dataNascimento}" required="true" label="Data de Nascimento"/>
+                                        <p:message for="dataNascimento" />
+
+
+                                        <h:panelGroup>
+                                            Telefone:
+                                        </h:panelGroup>
+
+                                        <h:panelGroup >
+                                            <p:selectOneListbox id="tipoTelefone" value="#{funcionarioController.entidade.telefone.tipo}">
+                                                <f:selectItem itemLabel="Celular"  itemValue="Celular" />
+                                                <f:selectItem itemLabel="Fixo" itemValue="Fixo" />
+                                            </p:selectOneListbox> 
+                                            <p:spacer height="30" width="0"/>
+
+                                            <p:inputMask mask="(99) 99999-9999" id="telefoneN" value="#{funcionarioController.entidade.telefone.telefone}" />                   
+                                        </h:panelGroup>
+                                        <p:outputLabel/>
+
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:tab>
+                        <p:tab id="address" title="Dados Login">
+                            <p:panel header="Login e Senha">
+                                <p:messages />
+                                <h:panelGrid columns="3" cellpadding="4" columnClasses="label, value, msg">
+                                    <p:outputLabel value="E-mail:" for="email" />
+                                    <p:inputText id="email" value="#{funcionarioController.email}" required="true" label="Email"/>
+                                    <p:message for="email" />
+
+                                    <p:outputLabel for="senha1" value="Senha: " />
+                                    <p:password id="senha1" value="#{funcionarioController.senha1}" feedback="true" inline="true" required="true" label="Senha"
+                                                promptLabel="Enter com sua senha" weakLabel="Fraca"
+                                                goodLabel="Razoável" strongLabel="Forte" 
+                                                />
+                                    <p:message for="senha1" />
+
+                                    <p:outputLabel for="senha2" value="Repita a senha: " />
+                                    <p:password id="senha2" value="#{funcionarioController.senha2}"  required="true" label="Repita a Senha"/>
+                                    <p:message for="senha2" />
+
+                                    <p:commandButton ajax="false" action="#{funcionarioController.salvarDados()}" value="Salvar"></p:commandButton>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:tab>                 
+                    </p:wizard>
+                </p:tab>
+            </p:tabView>
+            <p:spacer height="30" width="0"/>
+        </h:form>
+    </ui:define>
+</ui:composition>
