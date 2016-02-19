@@ -9,9 +9,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <!-- <h:outputStylesheet name="./css/default.css"/> 
         <h:outputStylesheet name="./css/cssLayout.css"/> -->
+        <h:outputStylesheet name="/css/default.css"/>
         <title>System Manager Store</title>
+        
     </h:head>
-    <h:body id="container" style="position: relative;">
+    <h:body id="container">
 
         <div id="top">
             <ui:insert name="top">
@@ -19,7 +21,7 @@
                     <p:menubar>
                         <p:menuitem value="Inicio" action="index.xhtml" ajax="false" immediate="true"/>
                         <p:submenu label="Cadastros">
-                            <p:menuitem value="Clientes" action="PessoaCadastro" ajax="false" immediate="true" />
+                            <p:menuitem value="Clientes" action="PessoaListagem.xhtml" ajax="false" immediate="true" />
                             <p:menuitem value="Funcionários" action="FuncionarioListagem.xhtml" ajax="false" immediate="true" />
                             <p:menuitem value="Fornecedores" action="FornecedorListagem.xhtml" ajax="false" immediate="true" />
 
@@ -40,7 +42,7 @@
                 <ui:insert name="content">Content</ui:insert>
             </div>
         </div>
-        <div id="bottom" style="position: absolute; width: 100%; float: bottom; bottom: 0; text-align: center">
+        <div id="bottom" style="position: relative; width: 100%; float: bottom; bottom: 0; text-align: center">
             © Copyright Equipe TADS JANUÁRIA 2016
         </div>
     </h:body>

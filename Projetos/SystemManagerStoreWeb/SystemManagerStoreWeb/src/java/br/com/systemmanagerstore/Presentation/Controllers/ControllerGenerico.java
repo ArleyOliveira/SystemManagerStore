@@ -52,11 +52,21 @@ public abstract class ControllerGenerico<T> {
     public String apagar() {
         if (dao.Apagar(entidade)) {
             MensagemTela.MensagemSucesso("Sucesso!", "Registro deletado com sucesso!");
-            return "FuncionarioListagem.xhtml";
+            this.limpar();
+            return this.getPaginaListagem();
         } else {
             MensagemTela.MensagemErro("Falha!", "Erro ao apagar o registro. Contacte o administrador do sistema!");
             return "";
         }
+    }
+    
+    public String voltarListagem(){
+        limparEntidade();
+        return this.paginaListagem;
+    }
+    
+    public String irPaginaEdicao(){
+        return this.paginaEdicao;
     }
 
     public void filtrar() {

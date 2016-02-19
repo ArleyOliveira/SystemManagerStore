@@ -48,7 +48,7 @@ public class FuncionarioController extends ControllerGenerico<Funcionario> imple
     public void init() {
         setDao(funcionarioLocal);
         setPaginaEdicao("FuncionarioEditar.xhtml");
-        setPaginaListagem("FuncionarioListagemListagem.xtml");
+        setPaginaListagem("FuncionarioListagem.xtml");
         setEntidade(new Funcionario());
         setFiltro(new Funcionario());
     }
@@ -104,7 +104,17 @@ public class FuncionarioController extends ControllerGenerico<Funcionario> imple
         this.email = "";
     }
 
+    //temp
     public String onFlowProcess(FlowEvent event) {
+        if (skip) {
+            skip = false;   //reset in case user goes back
+            return "confirm";
+        } else {
+            return event.getNewStep();
+        }
+    }
+
+    /*public String onFlowProcess(FlowEvent event) {
         if (validaCPF()) {
             try {
                 funcionarioLocal.verificaCPfExistente(this.getEntidade().getCpf());
@@ -123,8 +133,7 @@ public class FuncionarioController extends ControllerGenerico<Funcionario> imple
             MensagemTela.MensagemErro("CPF Invalido!", "CPF Inexistente!");
             return event.getOldStep();
         }
-    }
-
+    }*/
     public void comparaSenha() throws SenhaInvalidaException {
         if (!senha1.equals("") || !senha2.equals("")) {
             if (!senha1.equals(senha2)) {

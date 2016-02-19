@@ -44,10 +44,10 @@ public class Pessoa implements Serializable {
     @Column(nullable = false, length = 500)
     private String nome;
     
-    @Column(unique = true, length = 14)
+    @Column(unique = true, length = 14, nullable = true)
     private String cpf;
     
-    @Column(unique = true, length = 20)
+    @Column(unique = true, length = 20, nullable = true)
     private String rg;
     
     @Column(nullable = false, length = 1)
@@ -63,7 +63,7 @@ public class Pessoa implements Serializable {
     private BigDecimal debito;
     
     private String DTYPE;
-
+    
     public String getRg() {
         return rg;
     }
@@ -158,5 +158,14 @@ public class Pessoa implements Serializable {
         this.debito = new BigDecimal("0.00");
         this.telefone = new Telefone();
     }
+    
+    public String getSexoFormatado(){
+        if(this.sexo == 'M')
+            return "Masc.";
+        return "Femi.";
+    }
   
+    public int getIdade(){
+        return (new Date()).getYear() - this.dataNascimento.getYear();
+    }
 }

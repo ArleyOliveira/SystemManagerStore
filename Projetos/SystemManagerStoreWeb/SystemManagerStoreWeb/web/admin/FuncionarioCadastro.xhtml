@@ -24,7 +24,7 @@
 
                                         <p:outputLabel value="CPF" for="cpf"/>
                                         <p:inputMask mask="999.999.999-99" id="cpf" value="#{funcionarioController.entidade.cpf}" required="true" label="CPF">
-     
+
                                         </p:inputMask>
                                         <p:message for="cpf" />
 
@@ -63,12 +63,12 @@
                                 </h:panelGrid>
                             </p:panel>
                         </p:tab>
-                        <p:tab id="address" title="Dados Login">
-                            <p:panel header="Login e Senha">
+                        <p:tab id="address" title="Dados Login" >
+                            <p:panel header="Login e Senha" style="width: 100%;">
                                 <p:messages />
-                                <h:panelGrid columns="3" cellpadding="4" columnClasses="label, value, msg">
+                                <h:panelGrid columns="3" style="margin-bottom: 50px" cellpadding="4" cellspacing="4" columnClasses="label, value, msg">
                                     <p:outputLabel value="E-mail:" for="email" />
-                                    <p:inputText id="email" value="#{funcionarioController.email}" required="true" label="Email"/>
+                                    <p:inputText id="email" size="40" value="#{funcionarioController.email}" required="true" label="Email"/>
                                     <p:message for="email" />
 
                                     <p:outputLabel for="senha1" value="Senha: " />
@@ -82,8 +82,20 @@
                                     <p:password id="senha2" value="#{funcionarioController.senha2}"  required="true" label="Repita a Senha"/>
                                     <p:message for="senha2" />
 
-                                    <p:commandButton ajax="false" action="#{funcionarioController.salvarDados()}" value="Salvar"></p:commandButton>
+
+
                                 </h:panelGrid>
+                                <p:growl id="message" showDetail="true" />
+                                <h:panelGroup style="text-align: right; margin-left: 88%">
+                                    <p:commandButton value="Salvar" actionListener="#{funcionarioController.salvarDados()}" update="message :cadFuncionario" icon="ui-icon-check">
+                                        <p:confirm header="Confirmação" message="Deseja realmente salvar os dados?" icon="ui-icon-alert"  />
+                                    </p:commandButton>
+
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" immediate="true"/>
+                                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </p:confirmDialog>
+                                </h:panelGroup>
                             </p:panel>
                         </p:tab>                 
                     </p:wizard>

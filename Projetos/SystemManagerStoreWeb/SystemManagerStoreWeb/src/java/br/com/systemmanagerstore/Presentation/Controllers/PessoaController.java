@@ -6,14 +6,17 @@
 package br.com.systemmanagerstore.Presentation.Controllers;
 
 import br.com.systemmanagerstore.DomainModel.Pessoa;
+import br.com.systemmanagerstore.Presentation.Utility.Exception.CpfInvalidoException;
+import br.com.systemmanagerstore.Presentation.Utility.ValidadorCPF;
 import br.com.systemmanagerstore.Repository.PessoaRepositorio;
+import br.com.systemmanagerstore.Utility.MensagemTela;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-
-
 
 /**
  *
@@ -28,10 +31,10 @@ public class PessoaController extends ControllerGenerico<Pessoa> implements Seri
      */
     public PessoaController() {
     }
-    
+
     @EJB
     PessoaRepositorio pessoaLocal;
-    
+
     @PostConstruct
     public void init() {
         setDao(pessoaLocal);
@@ -57,4 +60,27 @@ public class PessoaController extends ControllerGenerico<Pessoa> implements Seri
         this.setFiltro(new Pessoa());
     }
 
+    public void salvarDados() {
+        try {
+            if (!ValidadorCPF.validaCPF(this.getEntidade().getCpf())) {
+                throw new CpfInvalidoException("Cpf invalido!");
+            }
+            pessoaLocal.verificaCPfExistente(this.getEntidade().getCpf());
+            this.salvar();
+        } catch (CpfInvalidoException cie) {
+            MensagemTela.MensagemErro("Cpf invalido", cie.getMessage());
+        }
+
+    }
+
+    public void editarDados() {
+        try {
+            if (!ValidadorCPF.validaCPF(this.getEntidade().getCpf())) {
+                throw new CpfInvalidoException("Cpf invalido!");
+            }
+            this.salvar();
+        } catch (CpfInvalidoException cie) {
+            MensagemTela.MensagemErro("Cpf invalido", cie.getMessage());
+        }
+    }
 }
