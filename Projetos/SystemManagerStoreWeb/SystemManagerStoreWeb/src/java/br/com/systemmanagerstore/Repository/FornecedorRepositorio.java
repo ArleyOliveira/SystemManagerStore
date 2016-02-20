@@ -6,6 +6,7 @@
 package br.com.systemmanagerstore.Repository;
 
 import br.com.systemmanagerstore.DomainModel.Fornecedor;
+import javax.ejb.Local;
 
 
 
@@ -13,6 +14,7 @@ import br.com.systemmanagerstore.DomainModel.Fornecedor;
  *
  * @author Arley
  */
+@Local
 public interface FornecedorRepositorio extends Repositorio<Fornecedor>{
     public Fornecedor Abrir(String cnpj);
 }

@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./TemplateAdmin.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <h:form>
+            <h:panelGrid columns="5" cellpadding="4" >
+                <p:outputLabel value="Razão Social " for="nome" />
+                <p:inputText id="nome" value="#{fornecedorController.filtro.nome}" label="Razão Social"/>
+                <p:commandButton value="Filtrar" ajax="false" icon="ui-icon-search" 
+                                 action="#{fornecedorController.filtrar}"/> 
+                <p:commandButton value="Limpar" ajax="false" icon="ui-icon-closethick"
+                                 action="#{fornecedorController.limpar}" />
+                <p:commandButton value="Novo" ajax="false" icon="ui-icon-plusthick" 
+                                 action="FornecedorCadastro.xhtml" /> 
+            </h:panelGrid>
+        </h:form>
+        <h:form>
+            <p:dataTable value="#{fornecedorController.listagem}" 
+                         var="item" id="tblFornecedor">
+                <p:column headerText="ID">
+                    #{item.id}
+                </p:column>
+                <p:column headerText="Razão Social">
+                    #{item.nome}
+                </p:column>
+                <p:column headerText="CNPJ">
+                    #{item.cnpj}
+                </p:column>                          
+                <p:column>
+
+                    <p:commandButton value="Editar" action="FornecedorEditar.xhtml" ajax="false" icon="ui-icon-pencil">
+                        <f:setPropertyActionListener target="#{fornecedorController.entidade}"
+                                                     value="#{item}" />
+                    </p:commandButton>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="Excluir" icon="ui-icon-trash" update="message tblFornecedor" action="#{fornecedorController.apagar}" immediate="true">
+                        <p:confirm header="Confirmação" message="Deseja realmente deletar este Fornecedor?" icon="ui-icon-alert" />
+                        <f:setPropertyActionListener target="#{fornecedorController.entidade}"
+                                                     value="#{item}" />
+                    </p:commandButton>
+                    <p:growl id="message" showDetail="true" />
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Sim" update="tblFornecedor" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
