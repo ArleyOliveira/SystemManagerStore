@@ -7,6 +7,7 @@ package br.com.systemmanagerstore.DomainModel;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -51,6 +52,7 @@ public class Compra implements Serializable {
         this.itens = new LinkedList<>();
         this.valor = new BigDecimal("0.00");
         this.fornecedor = new Fornecedor();
+        this.data = new Date();
     }
 
     public Fornecedor getFornecedor() {
@@ -87,7 +89,7 @@ public class Compra implements Serializable {
     
     public void add(ItemCompra i){
         this.itens.add(i);
-        this.valor.add((BigDecimal)i.getValorTotal());
+        this.valor.add((i.getValorTotal()));
     }
     
     public void remove(ItemCompra i){

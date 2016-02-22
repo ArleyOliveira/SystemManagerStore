@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./TemplateAdmin.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form id="compra">
+            <p:tabView>
+                <p:tab title="Registro de Compra">
+                    <h:panelGrid columns="3" cellpadding="4" >
+                        <p:outputLabel value="Fornecedor: *" for="fornecedor" />
+                        <p:autoComplete id="fornecedor" value="#{compraController.entidade.fornecedor}" completeMethod="#{fornecedorController.getAutoComplete}" label="Fornecedor"
+                                        var="f" itemLabel="#{f.nome}" itemValue="#{f}" converter="fornecedorConverter" forceSelection="true" />
+                        <p:message for="fornecedor" />
+
+                        <p:outputLabel for="data" value="Data: *" />
+                        <p:calendar id="data" locale="de" navigator="true" pattern="dd/MM/yyyy" mask="true" value="#{compraController.entidade.data}" label="Data da compra"/>
+                        <p:message for="data" />
+
+                        <p:outputLabel for="valorTotal" value="Valor Total: " />
+                        <p:inputText value="#{compraController.entidade.valor}" id="valorTotal" disabled="true"/>
+                        <p:outputLabel for="valorTotal"/>
+
+                    </h:panelGrid>
+                    <p:spacer  height="25" />
+                    <p:separator />
+                    <h:panelGrid columns="10" >
+                        <p:outputLabel value="Produto" for="produto" />
+                        <p:autoComplete size="30" id="produto" value="#{compraController.i.produto}" completeMethod="#{produtoController.getAutoComplete}" label="Produto"
+                                        var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="produtoConverter" forceSelection="true">
+                            <p:ajax event="itemSelect" update="valorUnit" />
+                        </p:autoComplete>
+                        <p:message for="produto" />
+
+                        <p:outputLabel value="Quantidade" for="quantidade"/>
+                        <p:inputText size="5" id="quantidade" value="#{compraController.i.quantidade}" label="Quantidade" />
+                        <p:message for="quantidade" />
+
+                        <p:outputLabel value="Valor Unitário:" for="valorUnit"/>
+                        <p:inputText size="5" id="valorUnit" value="#{compraController.i.valor}"  label="Valor Unitário" />
+                        <p:message for="valorUnit" />
+
+                        <p:commandButton value="Adiconar" action="#{compraController.addProduto()}" 
+                                         update="valorTotal tabelaItem produto valorUnit quantidade" icon="ui-icon-circle-plus"/>
+
+                    </h:panelGrid>
+                    <p:spacer  height="25" />
+                    <p:dataTable value="#{compraController.entidade.itens}" 
+                                 var="item" id="tabelaItem">
+                        <p:column headerText="ID">
+                            #{item.produto.id}
+                        </p:column>
+                        <p:column headerText="Nome">
+                            #{item.produto.nome}
+                        </p:column>
+                        <p:column headerText="Quantidade">
+                            #{item.quantidade}
+                        </p:column>
+                        <p:column headerText="Valor Unitário">
+                            #{item.valor}
+                        </p:column>
+                        <p:column headerText="Valor Total">
+                            #{item.valorTotal}
+                        </p:column>
+                        <p:column headerText="Editar">
+                            <p:commandButton value="Editar" action="#{compraController.editarItem}" ajax="false" update="tabelaItem" icon="ui-icon-pencil">
+                                <f:setPropertyActionListener target="#{compraController.i}"
+                                                             value="#{item}" />
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="Excluir">
+                            <p:commandButton value="Excluir" action="#{compraController.excluirItem()}" ajax="false" update="tabelaItem" icon="ui-icon-trash">
+                                <f:setPropertyActionListener target="#{compraController.i}"
+                                                             value="#{item}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:spacer  height="40" width="0"/>
+
+                    <p:commandButton value="Voltar" immediate="true" action="#{compraController.voltarListagem()}" ajax="false" icon="ui-icon-arrowthick-1-w"/>
+                    <p:growl id="message" showDetail="true" />
+
+                    <p:commandButton value="Salvar" actionListener="#{compraController.salvar}" update="message :compra" icon="ui-icon-document">
+                        <p:confirm header="Confirmação" message="Deseja realmente salvar os dados?" icon="ui-icon-alert"  />
+                    </p:commandButton>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update="compra"/>
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </p:tab>
+            </p:tabView>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

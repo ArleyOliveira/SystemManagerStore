@@ -7,10 +7,12 @@ package br.com.systemmanagerstore.Presentation.Controllers;
 
 import br.com.systemmanagerstore.DomainModel.Fornecedor;
 import br.com.systemmanagerstore.DomainModel.Pessoa;
+import br.com.systemmanagerstore.DomainModel.Produto;
 import br.com.systemmanagerstore.Repository.FornecedorRepositorio;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -59,4 +61,10 @@ public class FornecedorController extends ControllerGenerico<Fornecedor> impleme
         this.setFiltro(new Fornecedor());
     }
     
+    public List<Fornecedor> getAutoComplete(String texto) {
+        Fornecedor fornecedor = new Fornecedor();
+        fornecedor.setNome(texto);
+        fornecedor.setCnpj(texto);
+        return fornecedorLocal.Buscar(fornecedor);
+    }
 }

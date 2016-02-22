@@ -34,10 +34,12 @@ public class ItemCompra implements Serializable {
     @ManyToOne()
     private Produto produto;
 
+    @Column(nullable = false)
     private int quantidade;
 
     public ItemCompra() {
         this.valor = new BigDecimal("0.00");
+        this.produto = new Produto();
     }
 
     public BigDecimal getValor() {
@@ -63,7 +65,7 @@ public class ItemCompra implements Serializable {
     public void setProduto(Produto produto) {
         this.produto = produto;
     }
-
+    
     public int getQuantidade() {
         return quantidade;
     }

@@ -38,6 +38,7 @@ public class ItemCompra implements Serializable {
 
     public ItemCompra() {
         this.valor = new BigDecimal("0.00");
+        this.produto = new Produto();
     }
 
     public BigDecimal getValor() {

@@ -34,6 +34,7 @@ public class ItemVenda implements Serializable {
     @Column(precision = 5, scale = 2)
     private BigDecimal valor;
 
+    @Column(nullable = false)
     private int quantidade;
 
     public ItemVenda(Produto produto, int quantidade) {
