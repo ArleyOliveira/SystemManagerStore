@@ -4,10 +4,12 @@
                 template="./TemplateAdmin.xhtml"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns="http://www.w3.org/1999/xhtml">
 
     <ui:define name="content">
         <h:form>
+            <p class="titlePagina">Fornecedores Cadastrados</p>
             <h:panelGrid columns="5" cellpadding="4" >
                 <p:outputLabel value="Razão Social " for="nome" />
                 <p:inputText id="nome" value="#{fornecedorController.filtro.nome}" label="Razão Social"/>
@@ -15,7 +17,7 @@
                                  action="#{fornecedorController.filtrar}"/> 
                 <p:commandButton value="Limpar" ajax="false" icon="ui-icon-closethick"
                                  action="#{fornecedorController.limpar}" />
-                <p:commandButton value="Novo" ajax="false" icon="ui-icon-plusthick" 
+                <p:commandButton class="botaoNovo" value="Novo" ajax="false" icon="ui-icon-plusthick" 
                                  action="FornecedorCadastro.xhtml" /> 
             </h:panelGrid>
         </h:form>

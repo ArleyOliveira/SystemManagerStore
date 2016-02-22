@@ -40,7 +40,7 @@
             <p:commandButton value="Voltar" immediate="true" action="#{fornecedorController.voltarListagem()}" ajax="false" icon="ui-icon-arrowthick-1-w"/>
             <p:growl id="message" showDetail="true" />
 
-            <p:commandButton value="Salvar" actionListener="#{fornecedorController.salvar}" update="message :cadFornecedor" icon="ui-icon-check">
+            <p:commandButton value="Salvar" actionListener="#{fornecedorController.salvar()}" update="message :cadFornecedor" icon="ui-icon-check">
                 <p:confirm header="Confirmação" message="Deseja realmente salvar os dados?" icon="ui-icon-alert"  />
             </p:commandButton>
 

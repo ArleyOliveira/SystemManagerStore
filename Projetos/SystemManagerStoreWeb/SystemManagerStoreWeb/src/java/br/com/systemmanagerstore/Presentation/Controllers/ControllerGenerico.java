@@ -48,6 +48,14 @@ public abstract class ControllerGenerico<T> {
             MensagemTela.MensagemErro("Falha!", "Erro ao salvar o registro. Contacte o administrador do sistema!");
         }
     }
+    
+    public void editar() {
+        if (dao.Salvar(entidade)) {
+            MensagemTela.MensagemSucesso("Sucesso!", "Registro salvo com sucesso!");
+        } else {
+            MensagemTela.MensagemErro("Falha!", "Erro ao salvar o registro. Contacte o administrador do sistema!");
+        }
+    }
 
     public String apagar() {
         if (dao.Apagar(entidade)) {
@@ -113,7 +121,12 @@ public abstract class ControllerGenerico<T> {
     }
 
     public List<T> getListagem() {
-        return dao.Buscar(getFiltro());
+        try{
+            return dao.Buscar(getFiltro());
+        }catch(NullPointerException npe){
+            MensagemTela.MensagemErro("Erro Desconhecido!", "Contacte o administrador para obter informações.");
+        }
+        return null;
     }
 
     public String getPaginaEdicao() {

@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./TemplateAdmin.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h2 class="titlePagina"> Atualiza Estoque </h2>
+        <h:form id="atualizaEstoque">
+            <p:tabView>
+                <p:tab title="Atualização de Estoque">
+                    <h:panelGrid columns="3" cellpadding="4" >
+                        <p:outputLabel value="Produto:" for="produto" />
+                        <p:autoComplete  size="30" id="produto" value="#{produtoController.entidade}"  completeMethod="#{produtoController.getAutoComplete}" label="Produto"
+                                         var="p" itemLabel="#{p.nome} #{p.descricao}" itemValue="#{p}" converter="produtoConverter" forceSelection="true" >
+                            <p:ajax event="itemSelect" update="estoque" />
+                        </p:autoComplete>
+
+                        <p:message for="produto" />
+
+                        <p:outputLabel value="Estoque atual:" for="estoque"/>
+                        <p:inputText id="estoque" size="5" disabled="true"  value="#{produtoController.entidade.estoque}" label="Quantidade" />
+                        <p:message for="estoque" />
+
+                        <p:outputLabel value="Qtde a ser adicionada:" for="quantidade"/>
+                        <p:inputText id="quantidade" size="5" value="#{produtoController.quatidadeEstoque}" label="Quantidade a ser adicionada" />
+                        <p:message for="quantidade" />
+                    </h:panelGrid>
+
+                </p:tab>
+            </p:tabView>
+            <p:spacer height="30" width="0"/>
+            <p:growl id="message" showDetail="true" />
+            <p:commandButton value="Voltar" immediate="true" action="#{produtoController.voltarListagem()}" ajax="false"  icon="ui-icon-arrowthick-1-w"/>
+
+            <p:commandButton value="Salvar" actionListener="#{produtoController.atualizaEstoque()}" update="message :atualizaEstoque" icon="ui-icon-document">
+                <p:confirm header="Confirmação" message="Deseja realmente salvar os dados?" icon="ui-icon-alert"  />
+            </p:commandButton>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Sim" update="atualizaEstoque" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

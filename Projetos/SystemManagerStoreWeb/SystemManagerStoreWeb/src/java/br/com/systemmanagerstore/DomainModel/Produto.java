@@ -95,6 +95,14 @@ public class Produto implements Serializable {
         this.valor = new BigDecimal("0.00");
         this.estoqueMinimo = 0;
     }
+    
+    public void atualizaEstoque(int quantidade){
+        this.estoque += quantidade;
+    }
+    
+    public String getNomeDescricao(){
+        return this.nome +" - "+ this.descricao;
+    }
 
     @Override
     public int hashCode() {
