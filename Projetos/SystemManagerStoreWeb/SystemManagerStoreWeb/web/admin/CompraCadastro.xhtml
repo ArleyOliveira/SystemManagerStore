@@ -28,9 +28,9 @@
                     <p:spacer  height="25" />
                     <p:separator />
                     <h:panelGrid columns="10" >
-                        <p:outputLabel value="Produto" for="produto" />
-                        <p:autoComplete size="30" id="produto" value="#{compraController.i.produto}" completeMethod="#{produtoController.getAutoComplete}" label="Produto"
-                                        var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="produtoConverter" forceSelection="true">
+                        <p:outputLabel value="Produto:" for="produto" />
+                        <p:autoComplete size="50" id="produto" value="#{compraController.i.produto}" completeMethod="#{produtoController.getAutoComplete}" label="Produto"
+                                        var="p" itemLabel="#{p}" itemValue="#{p}" converter="produtoConverter" forceSelection="true">
                             <p:ajax event="itemSelect" update="valorUnit" />
                         </p:autoComplete>
                         <p:message for="produto" />
@@ -53,8 +53,9 @@
                         <p:column headerText="ID">
                             #{item.produto.id}
                         </p:column>
-                        <p:column headerText="Nome">
-                            #{item.produto.nome}
+                        <p:column headerText="Descrição">
+                            #{item.produto.nome} -
+                            #{item.produto.descricao}
                         </p:column>
                         <p:column headerText="Quantidade">
                             #{item.quantidade}
@@ -66,8 +67,15 @@
                             #{item.valorTotal}
                         </p:column>
 
+                        <p:column headerText="Editar">
+                            <p:commandButton value="Editar" action="#{compraController.editarItem()}" ajax="false" update="tabelaItem valorTotal" icon="ui-icon-pencil">
+                                <f:setPropertyActionListener target="#{compraController.i}"
+                                                             value="#{item}" />
+                            </p:commandButton>
+                        </p:column>
+                        
                         <p:column headerText="Excluir">
-                            <p:commandButton value="Excluir" action="#{compraController.excluirItem()}" ajax="false" update="tabelaItem" icon="ui-icon-trash">
+                            <p:commandButton value="Excluir" action="#{compraController.excluirItem()}" ajax="false" update="tabelaItem valorTotal" icon="ui-icon-trash">
                                 <f:setPropertyActionListener target="#{compraController.i}"
                                                              value="#{item}" />
                             </p:commandButton>

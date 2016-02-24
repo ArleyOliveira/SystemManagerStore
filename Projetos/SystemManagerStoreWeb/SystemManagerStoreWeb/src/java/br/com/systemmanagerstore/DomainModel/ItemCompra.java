@@ -7,6 +7,7 @@ package br.com.systemmanagerstore.DomainModel;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -78,25 +79,44 @@ public class ItemCompra implements Serializable {
     public BigDecimal getValorTotal(){
          return valor.multiply(new BigDecimal(quantidade));
     }
+
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.id);
+        hash = 97 * hash + Objects.hashCode(this.valor);
+        hash = 97 * hash + Objects.hashCode(this.produto);
+        hash = 97 * hash + this.quantidade;
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ItemCompra)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        ItemCompra other = (ItemCompra) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ItemCompra other = (ItemCompra) obj;
+        if (this.quantidade != other.quantidade) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.valor, other.valor)) {
+            return false;
+        }
+        if (!Objects.equals(this.produto, other.produto)) {
             return false;
         }
         return true;
     }
+   
 
     @Override
     public String toString() {

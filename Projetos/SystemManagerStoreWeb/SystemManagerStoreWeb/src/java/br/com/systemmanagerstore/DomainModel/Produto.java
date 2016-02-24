@@ -41,7 +41,6 @@ public class Produto implements Serializable {
 
     @Column(precision = 5, scale = 2, nullable = false)
     private BigDecimal valor;
-    
 
     public String getNome() {
         return nome;
@@ -90,18 +89,18 @@ public class Produto implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public Produto() {
         this.valor = new BigDecimal("0.00");
         this.estoqueMinimo = 0;
     }
-    
-    public void atualizaEstoque(int quantidade){
+
+    public void atualizaEstoque(int quantidade) {
         this.estoque += quantidade;
     }
-    
-    public String getNomeDescricao(){
-        return this.nome +" - "+ this.descricao;
+
+    public String getNomeDescricao() {
+        return this.nome + " - " + this.descricao;
     }
 
     @Override
@@ -126,7 +125,11 @@ public class Produto implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.systemmanagerstore.DomainModel.Produto[ id=" + id + " ]";
+        if (!(this.nome == null) || ("".equals(this.nome))) {
+            return this.nome + " - " + this.descricao;
+        } else {
+            return "";
+        }
     }
 
 }
