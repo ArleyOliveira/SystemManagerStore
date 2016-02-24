@@ -42,16 +42,34 @@ public class FuncionarioDAO extends PessoaGenericoDAO<Funcionario> implements Fu
     public void verifcaLoginExitente(String email) throws LoginInvalidoException {
         Query consulta = manager.createQuery("select p from Funcionario p where p.email =:p0");
         Funcionario funcionario = null;
-        
-        try{
+
+        try {
             funcionario = (Funcionario) consulta
-                .setParameter("p0", email)
-                .getSingleResult();
-        }catch(NoResultException nre){
-            
+                    .setParameter("p0", email)
+                    .getSingleResult();
+        } catch (NoResultException nre) {
+
         }
-        
-        if(funcionario != null)
+
+        if (funcionario != null) {
             throw new LoginInvalidoException("Login existente!");
+        }
+    }
+
+    @Override
+    public Funcionario autenticar(String email, String senha) throws LoginInvalidoException {
+        try {
+            Query consulta = manager.createQuery("select f from Funcionario f where f.email =:p0 and f.senha =:p1");
+            Funcionario funcionario = null;
+            funcionario = (Funcionario) consulta
+                    .setParameter("p0", email)
+                    .setParameter("p1", senha)
+                    .getSingleResult();
+            return funcionario;
+        } catch (NoResultException nre) {
+            throw new LoginInvalidoException("Login ou senha invalidos!");
+        } catch(IllegalArgumentException iae){
+            throw new LoginInvalidoException("Erro desconhecido, contacte com o adminstrador!");
+        }
     }
 }

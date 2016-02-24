@@ -18,5 +18,7 @@ import br.com.systemmanagerstore.Presentation.Utility.Exception.LoginInvalidoExc
 public interface FuncionarioRepositorio extends PessoaRepositorioGenerico<Funcionario>{
    
     public void verifcaLoginExitente(String email) throws LoginInvalidoException;
+    
+    public Funcionario autenticar(String email, String senha) throws LoginInvalidoException;
 }
 

@@ -11,14 +11,14 @@
         <h:outputStylesheet name="./css/cssLayout.css"/> -->
         <h:outputStylesheet name="/css/default.css"/>
         <title>System Manager Store</title>
-        
+
     </h:head>
     <h:body id="container">
 
         <div id="top">
             <ui:insert name="top">
                 <h:form>
-                    <p:menubar>
+                    <p:menubar style="position: relative">
                         <p:menuitem value="Inicio" action="index.xhtml" ajax="false" immediate="true"/>
                         <p:submenu label="Cadastros">
                             <p:menuitem value="Clientes" action="PessoaListagem.xhtml" ajax="false" immediate="true" />
@@ -30,10 +30,16 @@
                             <p:menuitem value="Novo" action="ProdutoCadastro.xhtml" ajax="false" immediate="true" />
                             <p:menuitem value="Consultar Estoque" action="ProdutoListagem.xhtml" ajax="false" immediate="true" />
                             <p:menuitem value="Atualizar Estoque" action="AtualizaEstoqueProduto.xhtml" ajax="false" immediate="true" />
-                            
+
                         </p:submenu>                            
                         <p:menuitem value="Compras" action="CompraListagem.xhtml" ajax="false" immediate="true" />
                         <p:menuitem value="Vendas" action="VendaListagem.xhtml" ajax="false" immediate="true" />
+
+                        <p:submenu label="#{funcionarioController.funcionarioLogado.nome}" style="float: left; position: relative">
+                            <p:menuitem value="Editar Dados" ajax="false" immediate="true" />
+                            <p:menuitem value="Segurança"  ajax="false" immediate="true" />
+                            <p:menuitem value="Sair" action="#{funcionarioController.doLogout()}"  ajax="false" immediate="true" />                             
+                        </p:submenu>  
                     </p:menubar>
                     <p:growl id="global" showDetail="true" />
                 </h:form>

@@ -11,14 +11,20 @@ import br.com.systemmanagerstore.Presentation.Utility.Exception.LoginInvalidoExc
 import br.com.systemmanagerstore.Presentation.Utility.Exception.SenhaInvalidaException;
 import br.com.systemmanagerstore.Presentation.Utility.ValidadorCPF;
 import br.com.systemmanagerstore.Repository.FuncionarioRepositorio;
+import br.com.systemmanagerstore.Repository.Repositorio;
+import br.com.systemmanagerstore.Utility.Criptografia;
 import br.com.systemmanagerstore.Utility.MensagemTela;
+import java.io.IOException;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.event.FlowEvent;
 
@@ -37,18 +43,24 @@ public class FuncionarioController extends ControllerGenerico<Funcionario> imple
     private boolean skip;
 
     private String senha1, senha2, email;
+    
+    //Relizar Login
+    private String senha;
+    private String login;
 
     public FuncionarioController() {
         senha1 = "";
         senha2 = "";
         email = "";
+        login = "";
+        senha = "";
     }
 
     @PostConstruct
     public void init() {
         setDao(funcionarioLocal);
         setPaginaEdicao("FuncionarioEditar.xhtml");
-        setPaginaListagem("FuncionarioListagem.xtml");
+        setPaginaListagem("FuncionarioListagem.xhtml");
         setEntidade(new Funcionario());
         setFiltro(new Funcionario());
     }
@@ -146,6 +158,26 @@ public class FuncionarioController extends ControllerGenerico<Funcionario> imple
         }
     }
 
+    public String getSenha() {
+        return senha;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setClasse(Class classe) {
+        this.classe = classe;
+    }
+   
     public boolean validaCPF() {
         return ValidadorCPF.validaCPF(getEntidade().getCpf());
     }
@@ -163,5 +195,30 @@ public class FuncionarioController extends ControllerGenerico<Funcionario> imple
         } catch (LoginInvalidoException lie) {
             MensagemTela.MensagemErro("Email Invalido!", lie.getMessage());
         }
+    }
+    
+    public void autenticar() {
+        Funcionario funcionario = null;
+        try{
+            funcionario = funcionarioLocal.autenticar(login,Criptografia.exemploMD5(senha));
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("funcionarioLogado", funcionario);
+            this.redirect("admin/"+this.getPaginaListagem());
+        }catch(LoginInvalidoException lie){
+            MensagemTela.MensagemErro("Falha!", lie.getMessage());
+            FacesContext.getCurrentInstance().validationFailed();
+        } catch (IOException ex) {
+            Logger.getLogger(FuncionarioController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(FuncionarioController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public Funcionario getFuncionarioLogado() {
+        return (Funcionario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("funcionarioLogado");
+    }
+    
+    public String doLogout() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "/Login.xhtml";
     }
 }

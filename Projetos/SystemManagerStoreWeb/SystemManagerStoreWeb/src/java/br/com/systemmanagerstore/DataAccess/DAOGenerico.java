@@ -107,7 +107,7 @@ public abstract class DAOGenerico<T> implements Repositorio<T> {
     }
     
     
-    public DAOGenerico<T> DiferenteA(String campo, Object valor) {
+    public DAOGenerico<T> Diferente(String campo, Object valor) {
 
         if (valor == null || valor.toString().isEmpty()) {
             return this;
