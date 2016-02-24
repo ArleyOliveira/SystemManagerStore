@@ -65,12 +65,7 @@
                         <p:column headerText="Valor Total">
                             #{item.valorTotal}
                         </p:column>
-                        <p:column headerText="Editar">
-                            <p:commandButton value="Editar" action="#{compraController.editarItem}" ajax="false" update="tabelaItem" icon="ui-icon-pencil">
-                                <f:setPropertyActionListener target="#{compraController.i}"
-                                                             value="#{item}" />
-                            </p:commandButton>
-                        </p:column>
+
                         <p:column headerText="Excluir">
                             <p:commandButton value="Excluir" action="#{compraController.excluirItem()}" ajax="false" update="tabelaItem" icon="ui-icon-trash">
                                 <f:setPropertyActionListener target="#{compraController.i}"
@@ -84,7 +79,7 @@
                     <p:commandButton value="Voltar" immediate="true" action="#{compraController.voltarListagem()}" ajax="false" icon="ui-icon-arrowthick-1-w"/>
                     <p:growl id="message" showDetail="true" />
 
-                    <p:commandButton value="Salvar" actionListener="#{compraController.salvar}" update="message :compra" icon="ui-icon-document">
+                    <p:commandButton value="Salvar" action="#{compraController.salvarDados()}" update="message :compra" icon="ui-icon-document">
                         <p:confirm header="Confirmação" message="Deseja realmente salvar os dados?" icon="ui-icon-alert"  />
                     </p:commandButton>
 

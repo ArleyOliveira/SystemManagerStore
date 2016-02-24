@@ -14,6 +14,5 @@ import javax.ejb.Local;
  *
  * @author ARLEY
  */
-@Local
 public interface PessoaRepositorio extends PessoaRepositorioGenerico<Pessoa>{
 }

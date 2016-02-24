@@ -15,7 +15,7 @@ import javax.persistence.Query;
  */
 public abstract class DAOGenerico<T> implements Repositorio<T> {
 
-    @PersistenceContext(name = "SistemManagerStorePU")
+    @PersistenceContext(name = "SystemManagerStorePU")
     protected EntityManager manager;
     Class classe;
     String where = "";
@@ -101,6 +101,25 @@ public abstract class DAOGenerico<T> implements Repositorio<T> {
 
         if (valor != null) {
             where = where + "c." + campo + " like '%" + valor + "%'";
+        }
+
+        return this;
+    }
+    
+    
+    public DAOGenerico<T> DiferenteA(String campo, Object valor) {
+
+        if (valor == null || valor.toString().isEmpty()) {
+            return this;
+        }
+
+        if (where.length() > 0) {
+            where += " and ";
+        }
+
+        if (valor != null) {
+            where = where + "c." + campo + " != :" + campo;
+            parametros.put(campo, valor);
         }
 
         return this;

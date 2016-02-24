@@ -37,7 +37,10 @@ public class Funcionario extends Pessoa implements Serializable {
     private String email;
 
     @Column(unique = false, length = 32, nullable = false)
-    private String senha;    
+    private String senha;
+
+    @Column()
+    private int permissao;
 
     public String getEmail() {
         return email;
@@ -49,6 +52,14 @@ public class Funcionario extends Pessoa implements Serializable {
 
     public String getSenha() {
         return senha;
+    }
+
+    public int getPermissao() {
+        return permissao;
+    }
+
+    public void setPermissao(int permissao) {
+        this.permissao = permissao;
     }
     
     public void setSenhaCriptografada(String senha){
@@ -96,6 +107,10 @@ public class Funcionario extends Pessoa implements Serializable {
     @Override
     public String toString() {
         return "br.com.systemmanagerstore.DomainModel.Funcionario[ id=" + id + " ]";
+    }
+
+    public Funcionario() {
+        this.permissao = 2;
     }
 
 }

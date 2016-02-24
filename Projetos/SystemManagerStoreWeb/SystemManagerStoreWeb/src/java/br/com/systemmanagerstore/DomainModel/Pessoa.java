@@ -53,6 +53,12 @@ public class Pessoa implements Serializable {
     @Column(nullable = false, length = 1)
     private char sexo;
     
+    @Column()
+    private boolean status;
+    
+    @Column()
+    private boolean f;
+    
     @Temporal(TemporalType.DATE)
     private Date dataNascimento;
     
@@ -70,6 +76,22 @@ public class Pessoa implements Serializable {
 
     public void setRg(String rg) {
         this.rg = rg;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public boolean isF() {
+        return f;
+    }
+
+    public void setF(boolean f) {
+        this.f = f;
     }
 
     public BigDecimal getDebito() {
@@ -157,6 +179,8 @@ public class Pessoa implements Serializable {
     public Pessoa() {
         this.debito = new BigDecimal("0.00");
         this.telefone = new Telefone();
+        this.status = true;
+        this.f = true;
     }
     
     public String getSexoFormatado(){

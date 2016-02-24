@@ -14,7 +14,6 @@ import javax.ejb.Local;
  *
  * @author Arley
  */
-@Local
 public interface FornecedorRepositorio extends Repositorio<Fornecedor>{
     public Fornecedor Abrir(String cnpj);
 }

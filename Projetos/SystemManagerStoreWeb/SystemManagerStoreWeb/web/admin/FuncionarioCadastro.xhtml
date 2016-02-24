@@ -67,6 +67,13 @@
                             <p:panel header="Login e Senha" style="width: 100%;">
                                 <p:messages />
                                 <h:panelGrid columns="3" style="margin-bottom: 50px" cellpadding="4" cellspacing="4" columnClasses="label, value, msg">
+                                    <p:outputLabel value="Permissão" for="permissao"/>
+                                    <p:selectOneRadio id="permissao" value="#{funcionarioController.entidade.permissao}" required="true" label="permissao">     
+                                        <f:selectItem itemLabel="Administrador" itemValue="2" />
+                                        <f:selectItem itemLabel="Padrão" itemValue="1" />
+                                    </p:selectOneRadio>
+                                    <p:message for="permissao" />
+
                                     <p:outputLabel value="E-mail:" for="email" />
                                     <p:inputText id="email" size="40" value="#{funcionarioController.email}" required="true" label="Email"/>
                                     <p:message for="email" />

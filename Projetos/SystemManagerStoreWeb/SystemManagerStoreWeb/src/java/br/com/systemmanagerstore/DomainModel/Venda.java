@@ -36,7 +36,7 @@ public class Venda implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     public Pessoa cliente;
 
     @ManyToOne(optional = false)

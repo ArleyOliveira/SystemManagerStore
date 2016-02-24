@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./TemplateAdmin.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="compra">
+            <p:tabView>
+                <p:tab title="Registro da Compra">
+                    <h:panelGrid columns="3" cellpadding="4" >
+                        <p:outputLabel value="Fornecedor: *" for="fornecedor"  />
+                        <p:autoComplete disabled="true" id="fornecedor" value="#{compraController.entidade.fornecedor}" completeMethod="#{fornecedorController.getAutoComplete}" label="Fornecedor"
+                                        var="f" itemLabel="#{f.nome}" itemValue="#{f}" converter="fornecedorConverter" forceSelection="true" />
+                        <p:message for="fornecedor" />
+
+                        <p:outputLabel for="data" value="Data: *" />
+                        <p:calendar disabled="true" id="data" locale="de" navigator="true" pattern="dd/MM/yyyy" mask="true" value="#{compraController.entidade.data}" label="Data da compra"/>
+                        <p:message for="data" />
+
+                        <p:outputLabel for="valorTotal" value="Valor Total: " />
+                        <p:inputText value="#{compraController.entidade.valor}" id="valorTotal" disabled="true"/>
+                        <p:outputLabel for="valorTotal"/>
+
+                    </h:panelGrid>
+
+                    <p:spacer  height="25" />
+
+                    <p:dataTable id="tbl" var="item" value="#{compraController.entidade.itens}"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                 paginator="true" rows="10" style="margin-bottom:20px">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="ID" />
+                            </f:facet>
+                            <h:outputText value="#{item.id}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nome"/>
+                            </f:facet>
+                            <h:outputText value="#{item.produto.nome}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Quantidade" />
+                            </f:facet>
+                            <h:outputText value="#{item.quantidade}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Valor Unitário" />
+                            </f:facet>
+                            <h:outputText value="#{item.valor}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Valor Total" />
+                            </f:facet>
+                            <h:outputText value="#{item.valorTotal}" />
+                        </p:column>
+                    </p:dataTable>
+                    <div class="ui-grid ui-grid-responsive">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-9"></div>
+                            <div class="ui-grid-col-3">
+
+                                <h3>Exportar para:</h3>
+
+                                <h:commandLink action="#{compraController.salvarPDF()}">
+                                    <p:graphicImage name="/icon/pdf.png" />
+                                </h:commandLink>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <p:spacer  height="40" width="0"/>
+                    <p:commandButton value="Voltar" immediate="true" action="#{compraController.limparEntidade}" ajax="false" icon="ui-icon-arrowthick-1-w"/>
+                    <p:growl id="message" showDetail="true" />
+                </p:tab>
+            </p:tabView>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

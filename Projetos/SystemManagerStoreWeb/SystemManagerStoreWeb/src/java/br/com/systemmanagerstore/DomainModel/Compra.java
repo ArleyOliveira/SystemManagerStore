@@ -51,7 +51,7 @@ public class Compra implements Serializable {
     public Compra(){
         this.itens = new LinkedList<>();
         this.valor = new BigDecimal("0.00");
-        this.fornecedor = new Fornecedor();
+        this.fornecedor = new Fornecedor(); 
         this.data = new Date();
     }
 
@@ -89,12 +89,10 @@ public class Compra implements Serializable {
     
     public void add(ItemCompra i){
         this.itens.add(i);
-        this.valor.add((i.getValorTotal()));
     }
     
     public void remove(ItemCompra i){
         this.itens.remove(i);
-        this.valor.subtract((BigDecimal)i.getValorTotal());
     }
 
     public Long getId() {
@@ -132,6 +130,10 @@ public class Compra implements Serializable {
     
      public String getDataFormatada(){
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); 
+        return sdf.format(data);
+    }
+     public String getDataFormatadaNomeRelatorio(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); 
         return sdf.format(data);
     }
 }

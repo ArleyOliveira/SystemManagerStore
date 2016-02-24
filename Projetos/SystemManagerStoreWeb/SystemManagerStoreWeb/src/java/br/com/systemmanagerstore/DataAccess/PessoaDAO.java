@@ -30,6 +30,7 @@ public class PessoaDAO extends PessoaGenericoDAO<Pessoa> implements PessoaReposi
         if (filtro != null) {
             return this.Like("nome", filtro.getNome())
                     .IgualA("id", filtro.getId())
+                    .IgualA("f", true)
                     .OrderBy("nome", "ASC")
                     .Buscar();
 

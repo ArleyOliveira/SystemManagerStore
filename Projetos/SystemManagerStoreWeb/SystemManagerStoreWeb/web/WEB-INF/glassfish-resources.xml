@@ -31,4 +31,5 @@
         <property name="driverClass" value="org.apache.derby.jdbc.ClientDriver"/>
     </jdbc-connection-pool>
     <jdbc-resource enabled="true" jndi-name="java:app/SystemManagerStorePU" object-type="user" pool-name="derby_net_SystemManagerStorePU_rootPool"/>
+    <jdbc-resource enabled="true" jndi-name="java:app/SystemManagerStorePU1" object-type="user" pool-name="mysql_systemmanagerstorepu_rootPool"/>
 </resources>
