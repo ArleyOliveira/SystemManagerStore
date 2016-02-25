@@ -53,7 +53,7 @@ public class Venda implements Serializable {
 
     public Venda() {
         this.itens = new LinkedList<>();
-        this.valor = new BigDecimal(0.00);
+        this.valor = new BigDecimal("0.00");
         this.data = new Date();
     }
 
@@ -149,5 +149,9 @@ public class Venda implements Serializable {
     public String getDataFormatada() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return sdf.format(data);
+    }
+    
+    public Double getValorFormatado(){
+        return valor.doubleValue();
     }
 }

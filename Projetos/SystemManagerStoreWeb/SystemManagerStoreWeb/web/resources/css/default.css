@@ -38,14 +38,31 @@ a:link:hover, a:visited:hover  {
 }
 .botaoNovo{
     background: #14c154;
+    border-color: #14c154;
+    
+}
+
+.botaoVendaAPrazo{
+    background: #428bca;
+}
+
+.botaoVendaAVista{
+    background: #5cb85c;
 }
 
 .botaoEditar{
-    background: f0ad4e;
+    background: #f0ad4e;
+    border-color: #f0ad4e;
+}
+
+.botaoCancelar{
+    background: #d9534f;
+    border-color: #d9534f;
 }
 
 .botaoExcluir{
     background: #d9534f;
+    border-color: #d9534f;
 }
 
 .painelVoltarSalvar{
@@ -53,3 +70,4 @@ a:link:hover, a:visited:hover  {
     margin-top: 100px;
     text-align: center;
 }
+.btn-danger { border-color: #d9534f; background-color: white};

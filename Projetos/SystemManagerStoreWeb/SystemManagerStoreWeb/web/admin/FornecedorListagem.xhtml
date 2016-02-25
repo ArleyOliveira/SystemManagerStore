@@ -23,7 +23,7 @@
         </h:form>
         <h:form>
             <p:dataTable value="#{fornecedorController.listagem}" 
-                         var="item" id="tblFornecedor">
+                         var="item" id="tblFornecedor" emptyMessage="Nenhum fornecedor foi cadastrado.">
                 <p:column headerText="ID">
                     #{item.id}
                 </p:column>

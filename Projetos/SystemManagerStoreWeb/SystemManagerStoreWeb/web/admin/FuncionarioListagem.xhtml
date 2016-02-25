@@ -31,7 +31,7 @@
         </h:form>
         <h:form>
             <p:dataTable value="#{funcionarioController.listagem}" 
-                         var="item" id="tblFuncionario" style="margin-bottom: 10px">
+                         var="item" id="tblFuncionario" emptyMessage="Nenhum funcionário foi cadastrado." style="margin-bottom: 10px">
                 <p:column headerText="ID">
                     #{item.id}
                 </p:column>
@@ -44,14 +44,14 @@
                 <p:column headerText="Sexo">
                     #{item.sexoFormatado}
                 </p:column>
-                <p:column>
+                <p:column rendered="#{funcionarioController.rederize(2)}">
 
                     <p:commandButton value="Editar" action="FuncionarioEditar.xhtml" ajax="false" icon="ui-icon-pencil">
                         <f:setPropertyActionListener target="#{funcionarioController.entidade}"
                                                      value="#{item}" />
                     </p:commandButton>
                 </p:column>
-                <p:column>
+                <p:column rendered="#{funcionarioController.rederize(2)}">
                     <p:commandButton value="Excluir" icon="ui-icon-trash" update="message tblFuncionario" action="#{funcionarioController.apagar}" immediate="true" class="botaoExcluir">
                         <p:confirm header="Confirmação" message="Deseja realmente deletar este Funcionario?" icon="ui-icon-alert" />
                         <f:setPropertyActionListener target="#{funcionarioController.entidade}"

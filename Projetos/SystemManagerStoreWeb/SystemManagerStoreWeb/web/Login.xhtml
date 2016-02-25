@@ -7,16 +7,29 @@
         <title>Sistem Manager Store</title>
     </h:head>
     <h:body>
-        <h:form>
-            <p:growl id="global" showDetail="true" />
-            Login:
-            <p:inputText value="#{funcionarioController.login}" id="login" /> <br />
+        <center>
+            <h:form id="painelLogin">
+                <p:panel id="basic" header="Painel de Autenticação" footer="AJ Confecções 2016" style="margin-bottom:20px; margin-top: 10%; width: 40%; text-align: left">
+                    <p:growl id="global" showDetail="true" />
+                    <p:messages id="messages" />
+                    <h:panelGrid columns="3" cellpadding="4" cellspacing="4" >
 
-            Senha:
-            <p:inputText value="#{funcionarioController.senha}" id="senha" /> <br />
+                        <p:outputLabel value="Login" for="login" />
+                        <p:inputText value="#{funcionarioController.login}" id="login" required="true" /> 
+                        <p:message for="login"/>
 
-            <p:commandButton value="Enviar"  action="#{funcionarioController.autenticar}" ajax="false"/>
-        </h:form>
+                        <p:outputLabel value="Senha" for="senha" />
+                        <p:password value="#{funcionarioController.senha}" id="senha" required="true" />
+                        <p:message for="senha" />
+                    </h:panelGrid>
+                    <p:spacer width="5" height="30" />
+                    <p:commandButton icon="ui-icon-circle-close" value="Limpar" actionListener="#{funcionarioController.limparLogin()}" ajax="false" immediate="true"/>
+                    <p:commandButton icon="ui-icon-check" value="Entrar" action="#{funcionarioController.autenticar}" ajax="false"/>
+                    
+                </p:panel>
+
+            </h:form>
+        </center>
     </h:body>
 </html>
 

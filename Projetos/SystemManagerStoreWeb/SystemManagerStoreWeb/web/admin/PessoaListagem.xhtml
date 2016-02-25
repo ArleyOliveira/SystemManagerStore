@@ -30,7 +30,7 @@
         
         <h:form>
             <p:dataTable value="#{pessoaController.listagem}" 
-                         var="item">
+                         var="item" emptyMessage="Nenhum cliente foi cadastrado.">
                 <p:column headerText="ID">
                     #{item.id}
                 </p:column>

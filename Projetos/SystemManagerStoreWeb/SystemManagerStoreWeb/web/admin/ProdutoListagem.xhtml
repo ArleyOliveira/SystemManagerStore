@@ -31,7 +31,7 @@
         </h:form>
         <h:form>
             <p:dataTable value="#{produtoController.listagem}" 
-                         var="item">
+                         var="item" emptyMessage="Nenhum produto foi cadastrado.">
                 <p:column headerText="ID">
                     #{item.id}
                 </p:column>

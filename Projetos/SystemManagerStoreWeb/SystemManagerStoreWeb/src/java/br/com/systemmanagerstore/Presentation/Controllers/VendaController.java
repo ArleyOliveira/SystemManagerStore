@@ -7,6 +7,9 @@ package br.com.systemmanagerstore.Presentation.Controllers;
 
 import br.com.systemmanagerstore.DomainModel.ItemVenda;
 import br.com.systemmanagerstore.DomainModel.Venda;
+import br.com.systemmanagerstore.Presentation.Utility.ItemInvalidoException;
+import br.com.systemmanagerstore.Presentation.Utility.ProdutoExitenteException;
+import br.com.systemmanagerstore.Presentation.Utility.QuantidadeProdutoInvalidoException;
 import br.com.systemmanagerstore.Repository.ProdutoRepositorio;
 import br.com.systemmanagerstore.Repository.VendaRepositorio;
 import br.com.systemmanagerstore.Utility.MensagemTela;
@@ -57,7 +60,7 @@ public class VendaController extends ControllerGenerico<Venda> implements Serial
 
     public void setI(ItemVenda i) {
         this.i = i;
-    }  
+    }
 
     @Override
     public void limparCampos() {
@@ -87,41 +90,57 @@ public class VendaController extends ControllerGenerico<Venda> implements Serial
         this.getEntidade().getValor().subtract(valor);
     }
 
+    public void verificarProdutoExistente() throws ProdutoExitenteException {
+        for (ItemVenda item : this.getEntidade().getItens()) {
+            if (item.getProduto().equals(i.getProduto())) {
+                throw new ProdutoExitenteException("Este produto já foi adicionado na lista!");
+            }
+        }
+    }
+
+    public void verificaQuantidadeAdicionada() throws QuantidadeProdutoInvalidoException {
+        if (i.getQuantidade() <= 0) {
+            throw new QuantidadeProdutoInvalidoException("Quantidade invalida!");
+        } else if (i.getQuantidade() > i.getProduto().getEstoque()) {
+            throw new QuantidadeProdutoInvalidoException("Quantidade insufiente no estoque!");
+        }
+
+    }
+
+    public void verificaItemPrenchido() throws ItemInvalidoException {
+        if (i == null || i.getProduto() == null) {
+            throw new ItemInvalidoException("Campos obrigátorio não preenchidos!");
+        }
+    }
+
     public void addProduto() {
         try {
-            for (ItemVenda item : this.getEntidade().getItens()) {
-                if (item.getProduto().equals(i.getProduto())) {
-                    throw new RuntimeException();
-                }
-            }
-            if (i.getProduto() != null && i.getQuantidade() > 0) {
-                this.getEntidade().add(i);
-                this.getEntidade().setValor((BigDecimal) this.getEntidade().getValor().add(i.getValorTotal()));
-                this.limparItem();
-                MensagemTela.MensagemSucesso("Sucesso!", "Produto adicionado com sucesso!");
-            } else {
-                MensagemTela.MensagemErro("Erro!", "Preenchar os campos obrigatorios");
-            }
-        } catch (RuntimeException e) {
-            limparItem();
-            MensagemTela.MensagemErro("Erro!", "Este produto já esta na lista!");
+            this.verificaItemPrenchido();
+            this.verificarProdutoExistente();
+            this.verificaQuantidadeAdicionada();    
+            this.getEntidade().add(i);
+            this.limparItem();
+        } catch (ProdutoExitenteException pee) {
+            MensagemTela.MensagemErro("Produto exitente!", pee.getMessage());
+        } catch(QuantidadeProdutoInvalidoException qpei){
+            MensagemTela.MensagemErro("Quantidade Invalida", qpei.getMessage());
+        }catch(ItemInvalidoException iie){
+            MensagemTela.MensagemErro("Campos não preenchidos!", iie.getMessage());
         }
     }
 
     public void excluirItem() {
-        this.getEntidade().setValor((BigDecimal) this.getEntidade().getValor().subtract(i.getValorTotal()));
         this.getEntidade().remove(i);
         this.limparItem();
     }
 
     public void editarItem() {
-        this.getEntidade().setValor((BigDecimal) this.getEntidade().getValor().subtract(i.getValorTotal()));
         this.getEntidade().remove(i);
     }
 
     public void atualizaEstoqueProduto() {
         for (ItemVenda i : this.getEntidade().getItens()) {
-            i.getProduto().setEstoque(i.getProduto().getEstoque() + i.getQuantidade());
+            i.getProduto().setEstoque(i.getProduto().getEstoque() - i.getQuantidade());
             produtoLocal.Salvar(i.getProduto());
         }
     }
@@ -129,5 +148,5 @@ public class VendaController extends ControllerGenerico<Venda> implements Serial
     public void addValorItem() {
         this.i.setValor(i.getProduto().getValor());
     }
- 
+
 }

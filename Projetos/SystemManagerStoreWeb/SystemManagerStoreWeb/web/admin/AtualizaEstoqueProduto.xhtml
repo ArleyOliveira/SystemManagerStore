@@ -14,7 +14,7 @@
                     <h:panelGrid columns="3" cellpadding="4" >
                         <p:outputLabel value="Produto:" for="produto" />
                         <p:autoComplete  size="30" id="produto" value="#{produtoController.entidade}"  completeMethod="#{produtoController.getAutoComplete}" label="Produto"
-                                         var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="produtoConverter" forceSelection="true" >
+                                         var="p" itemLabel="#{p}" itemValue="#{p}" converter="produtoConverter" forceSelection="true" >
                             <p:ajax event="itemSelect" update="estoque" />
                         </p:autoComplete>
 

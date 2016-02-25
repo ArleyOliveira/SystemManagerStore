@@ -19,26 +19,26 @@
             <ui:insert name="top">
                 <h:form>
                     <p:menubar style="position: relative">
-                        <p:menuitem value="Inicio" action="index.xhtml" ajax="false" immediate="true"/>
-                        <p:submenu label="Cadastros">
+                        <p:menuitem icon="ui-icon-home" value="Inicio" action="index.xhtml" ajax="false" immediate="true"/>
+                        <p:submenu icon="ui-icon-document" label="Cadastros">
                             <p:menuitem value="Clientes" action="PessoaListagem.xhtml" ajax="false" immediate="true" />
                             <p:menuitem value="Funcionários" action="FuncionarioListagem.xhtml" ajax="false" immediate="true" />
                             <p:menuitem value="Fornecedores" action="FornecedorListagem.xhtml" ajax="false" immediate="true" />
 
                         </p:submenu>
-                        <p:submenu label="Produtos">
-                            <p:menuitem value="Novo" action="ProdutoCadastro.xhtml" ajax="false" immediate="true" />
-                            <p:menuitem value="Consultar Estoque" action="ProdutoListagem.xhtml" ajax="false" immediate="true" />
-                            <p:menuitem value="Atualizar Estoque" action="AtualizaEstoqueProduto.xhtml" ajax="false" immediate="true" />
+                        <p:submenu icon="ui-icon-star" label="Produtos">
+                            <p:menuitem icon="ui-icon-circle-plus" value="Novo" action="ProdutoCadastro.xhtml" ajax="false" immediate="true" />
+                            <p:menuitem icon="ui-icon-search" value="Consultar Estoque" action="ProdutoListagem.xhtml" ajax="false" immediate="true" />
+                            <p:menuitem icon="ui-icon-arrowrefresh-1-w" value="Atualizar Estoque" action="AtualizaEstoqueProduto.xhtml" ajax="false" immediate="true" />
 
                         </p:submenu>                            
-                        <p:menuitem value="Compras" action="CompraListagem.xhtml" ajax="false" immediate="true" />
-                        <p:menuitem value="Vendas" action="VendaListagem.xhtml" ajax="false" immediate="true" />
+                        <p:menuitem icon="ui-icon-suitcase" value="Compras" action="CompraListagem.xhtml" ajax="false" immediate="true" />
+                        <p:menuitem icon="ui-icon-cart" value="Vendas" action="VendaCadastro.xhtml" ajax="false" immediate="true" />
 
-                        <p:submenu label="#{funcionarioController.funcionarioLogado.nome}" style="float: left; position: relative">
-                            <p:menuitem value="Editar Dados" ajax="false" immediate="true" />
-                            <p:menuitem value="Segurança"  ajax="false" immediate="true" />
-                            <p:menuitem value="Sair" action="#{funcionarioController.doLogout()}"  ajax="false" immediate="true" />                             
+                        <p:submenu icon="ui-icon-wrench" label="#{funcionarioController.funcionarioLogado.nome}" style="float: left; position: relative">
+                            <p:menuitem icon="ui-icon-pencil" value=" Editar Dados" ajax="false" immediate="true" />
+                            <p:menuitem icon="ui-icon-key" value="Segurança"  ajax="false" immediate="true" />
+                            <p:menuitem icon="ui-icon-power" value="Sair" action="#{funcionarioController.doLogout()}"  ajax="false" immediate="true" />                             
                         </p:submenu>  
                     </p:menubar>
                     <p:growl id="global" showDetail="true" />

@@ -126,6 +126,11 @@ public class FuncionarioController extends ControllerGenerico<Funcionario> imple
         }
     }
     
+    public void limparLogin(){
+        this.login = "";
+        this.senha = "";
+    }
+    
 
     /*public String onFlowProcess(FlowEvent event) {
         if (validaCPF()) {
@@ -220,5 +225,12 @@ public class FuncionarioController extends ControllerGenerico<Funcionario> imple
     public String doLogout() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/Login.xhtml";
+    }
+    
+    public boolean rederize(int nivel){
+        if(nivel == 2){
+            return getFuncionarioLogado().getPermissao() == 2;
+        }
+        return false;
     }
 }
