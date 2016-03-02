@@ -30,7 +30,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "pessoas")
-@Inheritance(strategy=InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "DTYPE", discriminatorType = DiscriminatorType.STRING, length = 32)
 @DiscriminatorValue("pessoa")
 public class Pessoa implements Serializable {
@@ -39,37 +39,36 @@ public class Pessoa implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-        
+
     @Column(nullable = false, length = 500)
     private String nome;
-    
+
     @Column(unique = true, length = 14, nullable = true)
     private String cpf;
-    
+
     @Column(unique = true, length = 20, nullable = true)
     private String rg;
-    
+
     @Column(nullable = false, length = 1)
     private char sexo;
-    
+
     @Column()
     private boolean status;
-    
+
     @Column()
     private boolean f;
-    
+
     @Temporal(TemporalType.DATE)
     private Date dataNascimento;
-    
+
     @OneToOne(cascade = CascadeType.ALL, optional = true)
     Telefone telefone;
 
     @Column(precision = 5, scale = 2, nullable = true)
     private BigDecimal debito;
-    
+
     private String DTYPE;
-    
+
     public String getRg() {
         return rg;
     }
@@ -84,6 +83,7 @@ public class Pessoa implements Serializable {
 
     public void setStatus(boolean status) {
         this.status = status;
+
     }
 
     public boolean isF() {
@@ -101,8 +101,7 @@ public class Pessoa implements Serializable {
     public void setDebito(BigDecimal valor) {
         this.debito = valor;
     }
-    
-    
+
     public Long getId() {
         return id;
     }
@@ -171,9 +170,21 @@ public class Pessoa implements Serializable {
         return true;
     }
 
+    public String getStatusFormatado() {
+        if (this.status) {
+            return "Positivo";
+        }
+        return "Negativo";
+    }
+
     @Override
     public String toString() {
-        return "br.com.systemmanagerstore.DomainModel.Pessoa[ id=" + id + " ]";
+        if (cpf.equals("") || cpf == null || nome.equals("") || nome == null) {
+            return "";
+        }
+        else{
+            return this.cpf + " - " + this.nome;
+        }
     }
 
     public Pessoa() {
@@ -182,14 +193,15 @@ public class Pessoa implements Serializable {
         this.status = true;
         this.f = true;
     }
-    
-    public String getSexoFormatado(){
-        if(this.sexo == 'M')
+
+    public String getSexoFormatado() {
+        if (this.sexo == 'M') {
             return "Masc.";
+        }
         return "Femi.";
     }
-  
-    public int getIdade(){
+
+    public int getIdade() {
         return (new Date()).getYear() - this.dataNascimento.getYear();
     }
 }

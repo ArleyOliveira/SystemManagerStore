@@ -5,6 +5,7 @@
  */
 package br.com.systemmanagerstore.Presentation.Controllers;
 
+import br.com.systemmanagerstore.DomainModel.Fornecedor;
 import br.com.systemmanagerstore.DomainModel.Pessoa;
 import br.com.systemmanagerstore.Presentation.Utility.Exception.CpfInvalidoException;
 import br.com.systemmanagerstore.Presentation.Utility.ValidadorCPF;
@@ -13,6 +14,7 @@ import br.com.systemmanagerstore.Utility.MensagemTela;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -78,9 +80,16 @@ public class PessoaController extends ControllerGenerico<Pessoa> implements Seri
             if (!ValidadorCPF.validaCPF(this.getEntidade().getCpf())) {
                 throw new CpfInvalidoException("Cpf invalido!");
             }
-            this.salvar();
+            this.editar();
         } catch (CpfInvalidoException cie) {
             MensagemTela.MensagemErro("Cpf invalido", cie.getMessage());
         }
+    }
+
+    public List<Pessoa> getAutoComplete(String texto) {
+        Pessoa pessoa = new Pessoa();
+        pessoa.setNome(texto);
+        pessoa.setCpf(texto);
+        return pessoaLocal.Buscar(pessoa);
     }
 }

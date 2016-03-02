@@ -6,6 +6,7 @@
 package br.com.systemmanagerstore.Presentation.Controllers;
 
 import br.com.systemmanagerstore.DomainModel.Funcionario;
+import br.com.systemmanagerstore.DomainModel.Telefone;
 import br.com.systemmanagerstore.Presentation.Utility.Exception.CpfInvalidoException;
 import br.com.systemmanagerstore.Presentation.Utility.Exception.LoginInvalidoException;
 import br.com.systemmanagerstore.Presentation.Utility.Exception.SenhaInvalidaException;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -26,6 +28,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.swing.text.html.parser.DTDConstants;
 import org.primefaces.event.FlowEvent;
 
 /**
@@ -43,7 +46,7 @@ public class FuncionarioController extends ControllerGenerico<Funcionario> imple
     private boolean skip;
 
     private String senha1, senha2, email;
-    
+
     //Relizar Login
     private String senha;
     private String login;
@@ -63,6 +66,26 @@ public class FuncionarioController extends ControllerGenerico<Funcionario> imple
         setPaginaListagem("FuncionarioListagem.xhtml");
         setEntidade(new Funcionario());
         setFiltro(new Funcionario());
+        try {
+            this.funcionarioLocal.verifcaLoginExitente("admin");
+            this.inserirUserPadrao();
+        } catch (LoginInvalidoException ex) {
+            Logger.getLogger(FuncionarioController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void inserirUserPadrao() {
+        this.getEntidade().setNome("Adminstrador");
+        this.getEntidade().setCpf("000.000.000-00");
+        this.getEntidade().setRg("0000000");
+        this.getEntidade().setDataNascimento(new Date());
+        this.getEntidade().setPermissao(2);
+        this.getEntidade().setEmail("admin");
+        this.getEntidade().setSenhaCriptografada("admin");
+        this.getEntidade().setSexo('M');
+        this.getEntidade().setTelefone(new Telefone("(38)99829-1884", "Celular"));
+        this.funcionarioLocal.Salvar(this.getEntidade());
+        this.limparCampos();
     }
 
     public boolean isSkip() {
@@ -125,12 +148,12 @@ public class FuncionarioController extends ControllerGenerico<Funcionario> imple
             return event.getNewStep();
         }
     }
-    
-    public void limparLogin(){
+
+    public void limparLogin() {
         this.login = "";
         this.senha = "";
     }
-    
+
 
     /*public String onFlowProcess(FlowEvent event) {
         if (validaCPF()) {
@@ -182,7 +205,7 @@ public class FuncionarioController extends ControllerGenerico<Funcionario> imple
     public void setClasse(Class classe) {
         this.classe = classe;
     }
-   
+
     public boolean validaCPF() {
         return ValidadorCPF.validaCPF(getEntidade().getCpf());
     }
@@ -201,14 +224,14 @@ public class FuncionarioController extends ControllerGenerico<Funcionario> imple
             MensagemTela.MensagemErro("Email Invalido!", lie.getMessage());
         }
     }
-    
+
     public void autenticar() {
         Funcionario funcionario = null;
-        try{
-            funcionario = funcionarioLocal.autenticar(login,Criptografia.exemploMD5(senha));
+        try {
+            funcionario = funcionarioLocal.autenticar(login, Criptografia.exemploMD5(senha));
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("funcionarioLogado", funcionario);
-            this.redirect("admin/"+this.getPaginaListagem());
-        }catch(LoginInvalidoException lie){
+            this.redirect("admin/" + this.getPaginaListagem());
+        } catch (LoginInvalidoException lie) {
             MensagemTela.MensagemErro("Falha!", lie.getMessage());
             FacesContext.getCurrentInstance().validationFailed();
         } catch (IOException ex) {
@@ -217,18 +240,18 @@ public class FuncionarioController extends ControllerGenerico<Funcionario> imple
             Logger.getLogger(FuncionarioController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public Funcionario getFuncionarioLogado() {
         return (Funcionario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("funcionarioLogado");
     }
-    
+
     public String doLogout() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/Login.xhtml";
     }
-    
-    public boolean rederize(int nivel){
-        if(nivel == 2){
+
+    public boolean rederize(int nivel) {
+        if (nivel == 2) {
             return getFuncionarioLogado().getPermissao() == 2;
         }
         return false;

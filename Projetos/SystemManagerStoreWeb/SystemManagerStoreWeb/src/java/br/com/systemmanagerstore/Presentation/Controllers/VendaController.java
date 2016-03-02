@@ -7,6 +7,7 @@ package br.com.systemmanagerstore.Presentation.Controllers;
 
 import br.com.systemmanagerstore.DomainModel.ItemVenda;
 import br.com.systemmanagerstore.DomainModel.Venda;
+import br.com.systemmanagerstore.Presentation.Utility.Exception.ClienteInvalidoException;
 import br.com.systemmanagerstore.Presentation.Utility.ItemInvalidoException;
 import br.com.systemmanagerstore.Presentation.Utility.ProdutoExitenteException;
 import br.com.systemmanagerstore.Presentation.Utility.QuantidadeProdutoInvalidoException;
@@ -15,11 +16,14 @@ import br.com.systemmanagerstore.Repository.VendaRepositorio;
 import br.com.systemmanagerstore.Utility.MensagemTela;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Named;
+import org.apache.commons.beanutils.BeanUtils;
 
 /**
  *
@@ -41,6 +45,8 @@ public class VendaController extends ControllerGenerico<Venda> implements Serial
 
     private ItemVenda i;
 
+    private boolean opcoesPosConfirme;
+
     public VendaController() {
         i = new ItemVenda();
     }
@@ -52,10 +58,19 @@ public class VendaController extends ControllerGenerico<Venda> implements Serial
         setPaginaListagem("VendaListagem.xtml");
         this.setEntidade(new Venda());
         this.setFiltro(new Venda());
+        this.opcoesPosConfirme = false;
     }
 
     public ItemVenda getI() {
         return i;
+    }
+
+    public boolean isOpcoesPosConfirme() {
+        return opcoesPosConfirme;
+    }
+
+    public void setOpcoesPosConfirme(boolean opcoesPosConfirme) {
+        this.opcoesPosConfirme = opcoesPosConfirme;
     }
 
     public void setI(ItemVenda i) {
@@ -117,14 +132,14 @@ public class VendaController extends ControllerGenerico<Venda> implements Serial
         try {
             this.verificaItemPrenchido();
             this.verificarProdutoExistente();
-            this.verificaQuantidadeAdicionada();    
+            this.verificaQuantidadeAdicionada();
             this.getEntidade().add(i);
             this.limparItem();
         } catch (ProdutoExitenteException pee) {
             MensagemTela.MensagemErro("Produto exitente!", pee.getMessage());
-        } catch(QuantidadeProdutoInvalidoException qpei){
+        } catch (QuantidadeProdutoInvalidoException qpei) {
             MensagemTela.MensagemErro("Quantidade Invalida", qpei.getMessage());
-        }catch(ItemInvalidoException iie){
+        } catch (ItemInvalidoException iie) {
             MensagemTela.MensagemErro("Campos não preenchidos!", iie.getMessage());
         }
     }
@@ -138,6 +153,13 @@ public class VendaController extends ControllerGenerico<Venda> implements Serial
         this.getEntidade().remove(i);
     }
 
+    public void addDebitoCliente() {
+        double valorVenda = this.getEntidade().getValor().doubleValue();
+        valorVenda = valorVenda + this.getEntidade().getCliente().getDebito().doubleValue();
+        BigDecimal valorAtualizado = new BigDecimal(valorVenda);
+        this.getEntidade().getCliente().setDebito(valorAtualizado);
+    }
+
     public void atualizaEstoqueProduto() {
         for (ItemVenda i : this.getEntidade().getItens()) {
             i.getProduto().setEstoque(i.getProduto().getEstoque() - i.getQuantidade());
@@ -149,4 +171,42 @@ public class VendaController extends ControllerGenerico<Venda> implements Serial
         this.i.setValor(i.getProduto().getValor());
     }
 
+    public void comfirmar() {
+        try {
+            this.verificaClienteExistente();
+            this.addDebitoCliente();
+            this.salvar();
+        } catch (ClienteInvalidoException cie) {
+            MensagemTela.MensagemErro("Erro!", cie.getMessage());
+        }
+    }
+
+    @Override
+    public void salvar() {
+        if (dao.Salvar(this.getEntidade())) {
+            MensagemTela.MensagemSucesso("Sucesso!", "Registro salvo com sucesso!");
+            this.opcoesPosConfirme = true;
+        } else {
+            MensagemTela.MensagemErro("Falha!", "Erro ao salvar o registro. Contacte o administrador do sistema!");
+        }
+
+    }
+
+    public void verificaClienteExistente() throws ClienteInvalidoException {
+        if (this.getEntidade().getCliente() == null) {
+            throw new ClienteInvalidoException("Cliente não informado!");
+        }
+    }
+
+    public String irParaTelaConfirmacao() {
+        if (this.getEntidade().getItens().isEmpty()) {
+            MensagemTela.MensagemErro("Erro!", "Nenhum item foi adicionado!");
+            return "";
+        }
+        return "VendaAPrazoCadastro.xhtml";
+    }
+
+    public boolean isEmptyItem() {
+        return this.getEntidade().getItens().isEmpty();
+    }
 }

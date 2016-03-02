@@ -5,6 +5,7 @@
  */
 package br.com.systemmanagerstore.Presentation.Controllers;
 
+import br.com.systemmanagerstore.Presentation.Utility.Config;
 import br.com.systemmanagerstore.Repository.Repositorio;
 import br.com.systemmanagerstore.Utility.MensagemTela;
 import java.io.IOException;
@@ -147,5 +148,9 @@ public abstract class ControllerGenerico<T> {
 
     public void redirect(String url) throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect(url);
+    }
+    
+    public String getUrlBase(){
+        return Config.urlBase;
     }
 }

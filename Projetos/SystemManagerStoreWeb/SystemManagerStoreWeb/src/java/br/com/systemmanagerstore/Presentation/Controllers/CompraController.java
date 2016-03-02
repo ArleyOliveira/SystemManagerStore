@@ -153,7 +153,7 @@ public class CompraController extends ControllerGenerico<Compra> implements Seri
         }
     }
 
-    public void salvarPDF() {
+    public void gerarPdf(int opcao) {
 
         List<ItemCompra> itens = this.getEntidade().getItens();
 
@@ -193,9 +193,10 @@ public class CompraController extends ControllerGenerico<Compra> implements Seri
                 HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
 
                 response.setContentType("application/pdf");
-
-                response.setHeader("Content-disposition", "inline; filename=\"Compra-"+this.getEntidade().getDataFormatadaNomeRelatorio()+"-"+this.getEntidade().getFornecedor().getNome()+".pdf\"");
-
+                if(opcao == 1)
+                    response.setHeader("Content-Disposition","inline; filename=\"Compra-"+this.getEntidade().getDataFormatadaNomeRelatorio()+"-"+this.getEntidade().getFornecedor().getNome()+".pdf\"");
+                else
+                    response.setHeader("Content-Disposition","attachment; filename=\"Compra-"+this.getEntidade().getDataFormatadaNomeRelatorio()+"-"+this.getEntidade().getFornecedor().getNome()+".pdf\"");
                 response.setContentLength(bytes.length);
 
                 ServletOutputStream outputStream = response.getOutputStream();

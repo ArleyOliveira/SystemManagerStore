@@ -52,6 +52,13 @@
                                 <p:inputMask mask="(99) 99999-9999" id="telefoneN" value="#{pessoaController.entidade.telefone.telefone}" />                   
                             </h:panelGroup>
                             <p:outputLabel/>
+                            
+                            <p:outputLabel value="Status" for="status"/>
+                            <p:selectOneRadio id="status" value="#{pessoaController.entidade.status}">
+                                <f:selectItem itemLabel="Positivo" itemValue="true" />
+                                <f:selectItem itemLabel="Negativo" itemValue="false" />
+                            </p:selectOneRadio>
+                            <p:message for="status" />
 
                         </h:panelGrid>
                     </h:panelGrid>
