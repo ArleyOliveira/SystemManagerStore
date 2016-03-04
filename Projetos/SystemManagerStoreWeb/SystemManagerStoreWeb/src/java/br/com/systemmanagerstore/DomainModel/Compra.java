@@ -34,24 +34,23 @@ public class Compra implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @ManyToOne
     private Fornecedor fornecedor;
-    
+
     @Column(precision = 6, scale = 2)
     private BigDecimal valor;
-    
 
     @Temporal(TemporalType.DATE)
     private Date data;
-    
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<ItemCompra> itens;
 
-    public Compra(){
+    public Compra() {
         this.itens = new LinkedList<>();
         this.valor = new BigDecimal("0.00");
-        this.fornecedor = new Fornecedor(); 
+        this.fornecedor = new Fornecedor();
         this.data = new Date();
     }
 
@@ -86,12 +85,12 @@ public class Compra implements Serializable {
     public void setItens(List<ItemCompra> itens) {
         this.itens = itens;
     }
-    
-    public void add(ItemCompra i){
+
+    public void add(ItemCompra i) {
         this.itens.add(i);
     }
-    
-    public void remove(ItemCompra i){
+
+    public void remove(ItemCompra i) {
         this.itens.remove(i);
     }
 
@@ -127,13 +126,14 @@ public class Compra implements Serializable {
     public String toString() {
         return "br.com.systemmanagerstore.DomainModel.Compra[ id=" + id + " ]";
     }
-    
-     public String getDataFormatada(){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); 
+
+    public String getDataFormatada() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return sdf.format(data);
     }
-     public String getDataFormatadaNomeRelatorio(){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); 
+
+    public String getDataFormatadaNomeRelatorio() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         return sdf.format(data);
     }
 }

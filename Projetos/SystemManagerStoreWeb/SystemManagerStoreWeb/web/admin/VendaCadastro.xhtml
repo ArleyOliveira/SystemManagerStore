@@ -9,7 +9,6 @@
 
     <ui:define name="content">
         <h:form id="cadVenda">
-
             <p:growl id="growl" sticky="true" showDetail="true"/>
             <p:panel id="horizontal" header="Dados da Venda">
                 <h:panelGrid columns="2" cellpadding="10">
@@ -18,7 +17,7 @@
                     <p:outputLabel value="Operador: " />
                     <p:outputLabel value="#{funcionarioController.funcionarioLogado.nome}" />
                     <p:outputLabel value="Valor: " />
-                   <p:outputLabel id="valorTotal" value="#{vendaController.entidade.valor}" />
+                    <p:outputLabel id="valorTotal" value="#{vendaController.entidade.valorFormatado}" />
                 </h:panelGrid>
                 <p:separator />
                 <h:panelGrid columns="10" >

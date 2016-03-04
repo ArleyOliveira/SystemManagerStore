@@ -5,6 +5,7 @@
  */
 package br.com.systemmanagerstore.DomainModel;
 
+import br.com.systemmanagerstore.Presentation.Utility.BigDecimalFormater;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -150,8 +151,14 @@ public class Venda implements Serializable {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return sdf.format(data);
     }
-    
-    public Double getValorFormatado(){
-        return valor.doubleValue();
+
+
+    public BigDecimal getValorFormatado() {
+        return BigDecimalFormater.casasDecimais(2, this.valor);
+    }
+
+    public String getDataFormatadaNomeRelatorio() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        return sdf.format(data);
     }
 }

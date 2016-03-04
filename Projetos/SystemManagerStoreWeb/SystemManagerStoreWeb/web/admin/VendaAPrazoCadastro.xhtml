@@ -33,7 +33,7 @@
                     <p:outputLabel value="Operador: " />
                     <p:outputLabel value="#{funcionarioController.funcionarioLogado.nome}" />
                     <p:outputLabel value="Valor Total: " />
-                    <p:outputLabel id="valorTotal" value="#{vendaController.entidade.valor}" />
+                    <p:outputLabel id="valorTotal" value="#{vendaController.entidade.valorFormatado}" />
                 </h:panelGrid>
                 <h:panelGrid columns="7" cellpadding="8">
                     <p:outputLabel value="Cliente *" for="cliente" />
@@ -74,12 +74,15 @@
 
             <center>
                 <h:panelGroup id="opcoes" rendered="#{vendaController.opcoesPosConfirme}" >
+                    
                     <h:commandLink id="print" rendered="#{vendaController.opcoesPosConfirme}">
                         <p:graphicImage name="/icon/print.png" />
+                        <p:fileDownload value="#{vendaController.gerarPdf('1')}" />
                     </h:commandLink>
 
                     <h:commandLink id="pdf" rendered="#{vendaController.opcoesPosConfirme}" style="margin-left: 5px">
-                        <p:graphicImage name="/icon/pdf.png" />       
+                        <p:graphicImage name="/icon/pdf.png" />
+                        <p:fileDownload value="#{vendaController.gerarPdf('2')}" />
                     </h:commandLink>
                 </h:panelGroup>
             </center>

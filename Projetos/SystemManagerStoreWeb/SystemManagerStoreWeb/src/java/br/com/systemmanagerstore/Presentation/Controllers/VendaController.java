@@ -5,25 +5,39 @@
  */
 package br.com.systemmanagerstore.Presentation.Controllers;
 
+import br.com.systemmanagerstore.DomainModel.Conta;
 import br.com.systemmanagerstore.DomainModel.ItemVenda;
 import br.com.systemmanagerstore.DomainModel.Venda;
+import br.com.systemmanagerstore.Presentation.Utility.Config;
 import br.com.systemmanagerstore.Presentation.Utility.Exception.ClienteInvalidoException;
 import br.com.systemmanagerstore.Presentation.Utility.ItemInvalidoException;
 import br.com.systemmanagerstore.Presentation.Utility.ProdutoExitenteException;
 import br.com.systemmanagerstore.Presentation.Utility.QuantidadeProdutoInvalidoException;
+import br.com.systemmanagerstore.Repository.ContaRepositorio;
+import br.com.systemmanagerstore.Repository.PessoaRepositorio;
 import br.com.systemmanagerstore.Repository.ProdutoRepositorio;
 import br.com.systemmanagerstore.Repository.VendaRepositorio;
 import br.com.systemmanagerstore.Utility.MensagemTela;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.HashMap;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import org.apache.commons.beanutils.BeanUtils;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
 
 /**
  *
@@ -43,12 +57,21 @@ public class VendaController extends ControllerGenerico<Venda> implements Serial
     @EJB
     ProdutoRepositorio produtoLocal;
 
+    @EJB
+    ContaRepositorio contaLocal;
+
+    @EJB
+    PessoaRepositorio pessoaLocal;
+
     private ItemVenda i;
+
+    private Conta conta;
 
     private boolean opcoesPosConfirme;
 
     public VendaController() {
-        i = new ItemVenda();
+        this.i = new ItemVenda();
+        this.conta = new Conta();
     }
 
     @PostConstruct
@@ -156,7 +179,7 @@ public class VendaController extends ControllerGenerico<Venda> implements Serial
     public void addDebitoCliente() {
         double valorVenda = this.getEntidade().getValor().doubleValue();
         valorVenda = valorVenda + this.getEntidade().getCliente().getDebito().doubleValue();
-        BigDecimal valorAtualizado = new BigDecimal(valorVenda);
+        BigDecimal valorAtualizado = new BigDecimal(String.valueOf(valorVenda));
         this.getEntidade().getCliente().setDebito(valorAtualizado);
     }
 
@@ -171,10 +194,24 @@ public class VendaController extends ControllerGenerico<Venda> implements Serial
         this.i.setValor(i.getProduto().getValor());
     }
 
+    public Conta getConta() {
+        return conta;
+    }
+
+    public void setConta(Conta conta) {
+        this.conta = conta;
+    }
+
+    public void preencherConta() {
+        this.conta = new Conta(this.getEntidade(), true);
+    }
+
     public void comfirmar() {
         try {
             this.verificaClienteExistente();
             this.addDebitoCliente();
+            this.getEntidade().setFuncionario(Config.getFuncionarioLogado());
+            this.preencherConta();
             this.salvar();
         } catch (ClienteInvalidoException cie) {
             MensagemTela.MensagemErro("Erro!", cie.getMessage());
@@ -183,8 +220,16 @@ public class VendaController extends ControllerGenerico<Venda> implements Serial
 
     @Override
     public void salvar() {
-        if (dao.Salvar(this.getEntidade())) {
+        if (contaLocal.Salvar(this.conta)) {
+            this.pessoaLocal.Salvar(this.getEntidade().getCliente());
+            this.atualizaEstoqueProduto();
             MensagemTela.MensagemSucesso("Sucesso!", "Registro salvo com sucesso!");
+            this.limparCampos();
+            try {
+                this.redirect("VendaConfirmada.xhtml");
+            } catch (IOException ioe) {
+                MensagemTela.MensagemErro("Falha!", "Erro desconhecido! Contacte com o adminstrado.");
+            }
             this.opcoesPosConfirme = true;
         } else {
             MensagemTela.MensagemErro("Falha!", "Erro ao salvar o registro. Contacte o administrador do sistema!");
@@ -208,5 +253,87 @@ public class VendaController extends ControllerGenerico<Venda> implements Serial
 
     public boolean isEmptyItem() {
         return this.getEntidade().getItens().isEmpty();
+    }
+
+    public void gerarPdf(int opcao) {
+
+        List<ItemVenda> itens = this.getEntidade().getItens();
+
+        JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(itens);
+
+        HashMap<String, Object> parameters = new HashMap<>();
+
+        parameters.put("operador", this.getEntidade().getFuncionario());
+
+        parameters.put("empresa", "AJ Confecções");
+        parameters.put("cnpj", "000-000-000/33");
+
+        parameters.put("data", this.getEntidade().getData());
+        parameters.put("valor", this.getEntidade().getValor());
+
+        parameters.put("cliente", this.getEntidade().getCliente());
+
+        try {
+
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+
+            facesContext.responseComplete();
+
+            ServletContext scontext = (ServletContext) facesContext.getExternalContext().getContext();
+
+            JasperPrint jasperPrint = JasperFillManager
+                    .fillReport(scontext.getRealPath("/resources/relatorios/venda.jasper"), parameters, ds);
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+            JRPdfExporter exporter = new JRPdfExporter();
+
+            exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+
+            exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
+
+            exporter.exportReport();
+
+            byte[] bytes = baos.toByteArray();
+
+            if (bytes != null && bytes.length > 0) {
+
+                HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+
+                response.setContentType("application/pdf");
+                if (opcao == 1) {
+                    response.setHeader("Content-Disposition", "inline; filename=\"Compra-" + this.getEntidade().getDataFormatadaNomeRelatorio() + "-" + this.getEntidade().getCliente().getNome() + ".pdf\"");
+                } else {
+                    response.setHeader("Content-Disposition", "attachment; filename=\"Compra-" + this.getEntidade().getDataFormatadaNomeRelatorio() + "-" + this.getEntidade().getCliente().getNome() + ".pdf\"");
+                }
+                response.setContentLength(bytes.length);
+
+                ServletOutputStream outputStream = response.getOutputStream();
+
+                outputStream.write(bytes, 0, bytes.length);
+
+                outputStream.flush();
+
+                outputStream.close();
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void limparConta(){
+        this.conta = null;
+    }
+    
+    public void irATelaDeVenda(){
+        limparCampos();
+        limparConta();
+        try {
+            this.redirect("VendaCadastro.xhtml");
+        } catch (IOException ex) {
+            MensagemTela.MensagemErro("Falha!", "Erro ao redirecionar.");
+        }
     }
 }

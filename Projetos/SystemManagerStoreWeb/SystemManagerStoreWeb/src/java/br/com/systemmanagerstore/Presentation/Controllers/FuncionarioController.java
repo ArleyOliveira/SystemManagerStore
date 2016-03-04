@@ -7,6 +7,7 @@ package br.com.systemmanagerstore.Presentation.Controllers;
 
 import br.com.systemmanagerstore.DomainModel.Funcionario;
 import br.com.systemmanagerstore.DomainModel.Telefone;
+import br.com.systemmanagerstore.Presentation.Utility.Config;
 import br.com.systemmanagerstore.Presentation.Utility.Exception.CpfInvalidoException;
 import br.com.systemmanagerstore.Presentation.Utility.Exception.LoginInvalidoException;
 import br.com.systemmanagerstore.Presentation.Utility.Exception.SenhaInvalidaException;
@@ -242,7 +243,7 @@ public class FuncionarioController extends ControllerGenerico<Funcionario> imple
     }
 
     public Funcionario getFuncionarioLogado() {
-        return (Funcionario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("funcionarioLogado");
+        return Config.getFuncionarioLogado();
     }
 
     public String doLogout() {

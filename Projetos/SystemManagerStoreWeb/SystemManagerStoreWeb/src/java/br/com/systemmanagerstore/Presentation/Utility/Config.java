@@ -5,9 +5,11 @@
  */
 package br.com.systemmanagerstore.Presentation.Utility;
 
+import br.com.systemmanagerstore.DomainModel.Funcionario;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -28,5 +30,9 @@ public class Config implements Serializable {
     
     public String urlBase(){
        return Config.urlBase;
+    }
+    
+    static public Funcionario getFuncionarioLogado(){
+        return (Funcionario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("funcionarioLogado");
     }
 }

@@ -23,7 +23,7 @@ public class ContaDAO extends DAOGenerico<Conta> implements ContaRepositorio{
 
     @Override
     public List<Conta> Buscar(Conta filtro) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.Buscar();
     }
     
 }

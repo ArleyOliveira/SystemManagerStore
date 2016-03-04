@@ -5,12 +5,14 @@
  */
 package br.com.systemmanagerstore.DomainModel;
 
+import br.com.systemmanagerstore.Presentation.Utility.BigDecimalFormater;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -52,7 +54,9 @@ public class Conta implements Serializable {
     private Date data;
 
     public Conta(Venda venda, boolean status) {
+        this.venda = venda;
         this.valor = venda.getValor();
+        this.status = status;
         if (status) {
             this.valorAtual = this.valor;
         }
@@ -147,5 +151,15 @@ public class Conta implements Serializable {
     public String getDataFormatada() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return sdf.format(data);
+    }
+    
+    public BigDecimal getValorFormatado() {
+        return BigDecimalFormater.casasDecimais(2, this.valor);
+    }
+    
+    public String getStatusFormatado(){
+        if(this.status)
+            return "Não liquidada";
+         return "Pago";
     }
 }

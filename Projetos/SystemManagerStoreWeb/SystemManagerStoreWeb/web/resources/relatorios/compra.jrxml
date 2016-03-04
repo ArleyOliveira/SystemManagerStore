@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="97044474-0eca-48d7-87c5-ab613d6421d5">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="126"/>
-	<property name="ireport.y" value="32"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="5"/>
 	<parameter name="fornecedor" class="java.lang.String"/>
 	<parameter name="cnpj" class="java.lang.String"/>
 	<parameter name="valor" class="java.math.BigDecimal"/>
@@ -141,28 +141,28 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20">
+		<band height="68">
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="79d85248-3134-4184-91cb-90d6d7917ff7"/>
 			</line>
 			<textField>
-				<reportElement x="0" y="0" width="76" height="20" uuid="ecd94132-e8db-44f9-af35-32c3339a8807"/>
+				<reportElement x="3" y="0" width="76" height="20" uuid="ecd94132-e8db-44f9-af35-32c3339a8807"/>
 				<textFieldExpression><![CDATA[$F{produto}.id]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="262" y="0" width="82" height="20" uuid="55f679e3-11e4-4fbf-b872-4e0bb6d58ad6"/>
+				<reportElement x="265" y="0" width="82" height="20" uuid="55f679e3-11e4-4fbf-b872-4e0bb6d58ad6"/>
 				<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="344" y="0" width="109" height="20" uuid="73131403-8f29-4f8c-87f6-85193988407b"/>
+				<reportElement x="347" y="0" width="109" height="20" uuid="73131403-8f29-4f8c-87f6-85193988407b"/>
 				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="453" y="0" width="99" height="20" uuid="9f07584b-bd6a-4cca-a343-1a364da5450f"/>
+				<reportElement x="456" y="0" width="99" height="20" uuid="9f07584b-bd6a-4cca-a343-1a364da5450f"/>
 				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="76" y="0" width="186" height="20" uuid="f2119402-6d3a-4544-9570-263969160c05"/>
+				<reportElement x="79" y="0" width="186" height="20" uuid="f2119402-6d3a-4544-9570-263969160c05"/>
 				<textFieldExpression><![CDATA[""+$F{produto}.nome]]></textFieldExpression>
 			</textField>
 		</band>

@@ -71,3 +71,8 @@ a:link:hover, a:visited:hover  {
     text-align: center;
 }
 .btn-danger { border-color: #d9534f; background-color: white};
+
+
+.negrito{
+    font-weight: bold;
+}
