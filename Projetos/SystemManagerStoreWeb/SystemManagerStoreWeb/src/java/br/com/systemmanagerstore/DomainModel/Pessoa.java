@@ -7,6 +7,7 @@ package br.com.systemmanagerstore.DomainModel;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -203,5 +204,10 @@ public class Pessoa implements Serializable {
 
     public int getIdade() {
         return (new Date()).getYear() - this.dataNascimento.getYear();
+    }
+    
+    public String getDataNascimentoFormatada() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(dataNascimento);
     }
 }

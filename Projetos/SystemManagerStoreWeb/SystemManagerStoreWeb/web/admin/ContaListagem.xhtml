@@ -3,10 +3,11 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./TemplateAdmin.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
-        <h:form >
+        <h:form>
             <p:dataTable var="conta" value="#{contaController.listagem}" rows="10"
                          paginator="true"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -14,7 +15,7 @@
                 <p:column headerText="Código">
                     <h:outputText value="#{conta.id}" />
                 </p:column>
-                
+
                 <p:column headerText="Data">
                     <h:outputText value="#{conta.dataFormatada}" />
                 </p:column>
@@ -31,12 +32,16 @@
                 <p:column headerText="Valor Atual">
                     <h:outputText value="#{conta.valorAtual}" />
                 </p:column>
-                
+
                 <p:column headerText="Status">
                     <h:outputText value="#{conta.statusFormatado}" />
                 </p:column>
+                
                 <p:column headerText="Operação">
-                    <p:commandButton value="Abrir" />
+                    <p:commandButton value="Abrir" action="AbrirConta.xhtml" icon="ui-icon-folder-open">
+                        <f:setPropertyActionListener target="#{contaController.entidade}"
+                                                     value="#{conta}" />
+                    </p:commandButton>
                 </p:column>
             </p:dataTable>
         </h:form>

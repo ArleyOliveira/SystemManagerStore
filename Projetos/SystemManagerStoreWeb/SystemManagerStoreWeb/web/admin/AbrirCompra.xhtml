@@ -11,19 +11,15 @@
         <h:form id="compra">
             <p:tabView>
                 <p:tab title="Registro da Compra">
-                    <h:panelGrid columns="3" cellpadding="4" >
-                        <p:outputLabel value="Fornecedor: *" for="fornecedor"  />
-                        <p:autoComplete disabled="true" id="fornecedor" value="#{compraController.entidade.fornecedor}" completeMethod="#{fornecedorController.getAutoComplete}" label="Fornecedor"
-                                        var="f" itemLabel="#{f.nome}" itemValue="#{f}" converter="fornecedorConverter" forceSelection="true" />
-                        <p:message for="fornecedor" />
-
-                        <p:outputLabel for="data" value="Data: *" />
-                        <p:calendar disabled="true" id="data" locale="de" navigator="true" pattern="dd/MM/yyyy" mask="true" value="#{compraController.entidade.data}" label="Data da compra"/>
-                        <p:message for="data" />
+                    <h:panelGrid columns="2" cellpadding="4" >
+                        <p:outputLabel value="Fornecedor: " for="fornecedor"  />
+                        <p:outputLabel  id="fornecedor" value="#{compraController.entidade.fornecedor.nome}" />
+                        
+                        <p:outputLabel for="data" value="Data: " />
+                        <p:outputLabel value="#{compraController.entidade.dataFormatada}" id="data" />
 
                         <p:outputLabel for="valorTotal" value="Valor Total: " />
-                        <p:inputText value="#{compraController.entidade.valor}" id="valorTotal" disabled="true"/>
-                        <p:outputLabel for="valorTotal"/>
+                        <p:outputLabel id="valorTotal" value="#{compraController.entidade.valor}" />
 
                     </h:panelGrid>
 

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./TemplateAdmin.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="vendaConfirmada">
+            <p:growl id="growl" sticky="true" showDetail="true"/>
+            <p:panel id="horizontal" header="Dados da conta">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel class="negrito" value="Data: " />
+                    <p:outputLabel value="#{contaController.entidade.venda.dataFormatada}" />
+                    
+                    <p:outputLabel class="negrito" value="Operador: " />                    
+                    <p:outputLabel value="#{contaController.entidade.venda.funcionario.nome}" />
+                    
+                    <p:outputLabel class="negrito" value="Valor: " />
+                    <p:outputLabel id="valorTotal" value="#{contaController.entidade.valorFormatado}" />
+                </h:panelGrid>
+                <h:panelGrid columns="4" cellpadding="">
+                    <p:outputLabel class="negrito" value="Cliente: " />
+                    <p:outputLabel id="cliente" value="#{contaController.entidade.venda.cliente.nome}" />
+
+                    <p:outputLabel class="negrito" value="CPF: " style="margin-left: 2%" />
+                    <p:outputLabel id="clientecpf" value="#{contaController.entidade.venda.cliente.cpf}" />
+                 
+                </h:panelGrid>
+                <p:separator />
+
+                <p:dataTable value="#{contaController.entidade.venda.itens}" 
+                             var="item" id="tabelaItem" emptyMessage="Nenhum item foi adicionado.">
+                    <p:column headerText="Código">
+                        #{item.produto.id}
+                    </p:column>
+                    <p:column headerText="Descrição">
+                        #{item.produto.nome} -
+                        #{item.produto.descricao}
+                    </p:column>
+                    <p:column headerText="Quantidade">
+                        #{item.quantidade}
+                    </p:column>
+                    <p:column headerText="Valor Unitário">
+                        #{item.valor}
+                    </p:column>
+                    <p:column headerText="Valor Total">
+                        #{item.valorTotal}
+                    </p:column>
+                </p:dataTable>
+                <br />
+                <p:commandButton value="Voltar" icon="ui-icon-circle-arrow-w" action="#{contaController.voltarListagem()}" ajax="false" />
+                <h:commandLink style="margin-left: 85%" id="print">
+                    <p:graphicImage name="/icon/print.png" />
+                    <p:fileDownload value="#{contaController.gerarPdf('1')}" />
+                </h:commandLink>
+
+                <h:commandLink id="pdf" style="margin-left: 5px">
+                    <p:graphicImage name="/icon/pdf.png" />
+                    <p:fileDownload value="#{contaController.gerarPdf('2')}" />
+                </h:commandLink>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -257,21 +257,21 @@ public class VendaController extends ControllerGenerico<Venda> implements Serial
 
     public void gerarPdf(int opcao) {
 
-        List<ItemVenda> itens = this.getEntidade().getItens();
+        List<ItemVenda> itens = this.conta.getVenda().getItens();
 
         JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(itens);
 
         HashMap<String, Object> parameters = new HashMap<>();
 
-        parameters.put("operador", this.getEntidade().getFuncionario());
+        parameters.put("operador", this.conta.getVenda().getFuncionario());
 
         parameters.put("empresa", "AJ Confecções");
         parameters.put("cnpj", "000-000-000/33");
 
-        parameters.put("data", this.getEntidade().getData());
-        parameters.put("valor", this.getEntidade().getValor());
+        parameters.put("data", this.conta.getData());
+        parameters.put("valor", this.conta.getValor());
 
-        parameters.put("cliente", this.getEntidade().getCliente());
+        parameters.put("cliente", this.conta.getVenda().getCliente());
 
         try {
 
@@ -302,9 +302,9 @@ public class VendaController extends ControllerGenerico<Venda> implements Serial
 
                 response.setContentType("application/pdf");
                 if (opcao == 1) {
-                    response.setHeader("Content-Disposition", "inline; filename=\"Compra-" + this.getEntidade().getDataFormatadaNomeRelatorio() + "-" + this.getEntidade().getCliente().getNome() + ".pdf\"");
+                    response.setHeader("Content-Disposition", "inline; filename=\"Compra-" + this.conta.getVenda().getDataFormatadaNomeRelatorio() + "-" + this.conta.getVenda().getCliente().getNome() + ".pdf\"");
                 } else {
-                    response.setHeader("Content-Disposition", "attachment; filename=\"Compra-" + this.getEntidade().getDataFormatadaNomeRelatorio() + "-" + this.getEntidade().getCliente().getNome() + ".pdf\"");
+                    response.setHeader("Content-Disposition", "attachment; filename=\"Compra-" + this.conta.getVenda().getDataFormatadaNomeRelatorio() + "-" + this.conta.getVenda().getCliente().getNome() + ".pdf\"");
                 }
                 response.setContentLength(bytes.length);
 
