@@ -73,7 +73,6 @@ public class VendaController extends ControllerGenerico<Venda> implements Serial
 
     public VendaController() {
         this.i = new ItemVenda();
-        this.conta = new Conta();
     }
 
     @PostConstruct
@@ -329,6 +328,15 @@ public class VendaController extends ControllerGenerico<Venda> implements Serial
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    
+    public void isEmptyConta(){
+        if(this.conta == null)
+            try {
+                redirect("VendaCadastro.xhtml");
+        } catch (IOException ex) {
+            MensagemTela.MensagemErro("Falha!", "Erro desconhecido. Contacte com adminstrador.");
         }
     }
     

@@ -9,6 +9,11 @@
 
     <ui:define name="content">
         <h:form id="vendaConfirmada">
+            <script>
+                $(document).ready(function () {
+                #{vendaController.isEmptyConta()}
+                });
+            </script>
             <p:growl id="growl" sticky="true" showDetail="true"/>
             <p:panel id="horizontal" header="Dados da conta">
                 <h:panelGrid columns="2" cellpadding="10">
@@ -25,7 +30,7 @@
 
                     <p:outputLabel class="negrito" value="CPF: " style="margin-left: 2%" />
                     <p:outputLabel id="clientecpf" value="#{vendaController.conta.venda.cliente.cpf}" />
-                    
+
                     <p:outputLabel value="Déb. Anteriores R$:" style="font-weight: bold"/>
                     <p:outputLabel style="color: blue; font-weight: bold" id="debAnteriores">#{vendaController.conta.venda.cliente.debito}</p:outputLabel>
 

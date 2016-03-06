@@ -36,7 +36,7 @@
                         <p:menuitem icon="ui-icon-note" value="Contas" action="ContaListagem.xhtml" ajax="false" immediate="true" />
 
                         <p:submenu icon="ui-icon-wrench" label="#{funcionarioController.funcionarioLogado.nome}" style="float: left; position: relative">
-                            <p:menuitem icon="ui-icon-pencil" value=" Editar Dados" ajax="false" immediate="true" />
+                            <p:menuitem icon="ui-icon-pencil" value=" Editar Dados" ajax="false" immediate="true"  action="FuncionarioEditar.xthml"/>
                             <p:menuitem icon="ui-icon-key" value="Segurança"  ajax="false" immediate="true" />
                             <p:menuitem icon="ui-icon-power" value="Sair" action="#{funcionarioController.doLogout()}"  ajax="false" immediate="true" />                             
                         </p:submenu>  

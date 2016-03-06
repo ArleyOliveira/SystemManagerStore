@@ -155,6 +155,18 @@ public class FuncionarioController extends ControllerGenerico<Funcionario> imple
         this.senha = "";
     }
 
+    public void editarDadosFuncionarioLogado(){
+        this.setEntidade(this.getFuncionarioLogado());
+        this.editar();
+        this.limparEntidade();
+        try {
+            redirect("FuncionarioEditar.xhtml");
+        } catch (IOException ex) {
+            MensagemTela.MensagemErro("Falha!", "Erro desconhecido. Contacte com adminstrador!");
+        }
+    }
+    
+    
 
     /*public String onFlowProcess(FlowEvent event) {
         if (validaCPF()) {
