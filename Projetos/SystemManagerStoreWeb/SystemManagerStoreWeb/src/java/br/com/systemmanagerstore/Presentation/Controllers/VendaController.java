@@ -24,6 +24,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -250,9 +252,16 @@ public class VendaController extends ControllerGenerico<Venda> implements Serial
         }
         return "VendaAPrazoCadastro.xhtml";
     }
+    
+    
 
-    public boolean isEmptyItem() {
-        return this.getEntidade().getItens().isEmpty();
+    public void isEmptyItem() {
+        if(this.getEntidade().getItens().isEmpty())
+            try {
+                redirect("VendaCadastro.xhtml");
+        } catch (IOException ex) {
+            MensagemTela.MensagemErro("Falha!", "Erro desconhecido. Contacte com administrador.");
+        }
     }
 
     public void gerarPdf(int opcao) {

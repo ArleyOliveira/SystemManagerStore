@@ -18,11 +18,7 @@
             </style>
             <script>
                 $(document).ready(function () {
-                    $("#cadVendaPrazo").hide();
-                    if (#{vendaController.isEmptyItem()}) {
-                        $(location).attr('href', '#{vendaController.urlBase}admin/VendaCadastro.xhtml');
-                    }
-                    $("#cadVendaPrazo").show();
+                    #{vendaController.isEmptyItem()}
                 });
             </script>
             <p:growl id="growl" sticky="true" showDetail="true"/>
